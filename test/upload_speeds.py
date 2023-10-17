@@ -37,11 +37,13 @@ save_dir = "s3://speed-demo-bucket/imgs"
 profile = "nick"
 notify_after = 25
 
+totalsize = sum([os.stat(f).st_size for f in filelist])
+
 before = time.time()
-pyaws.sync_dir(source_dir, save_dir, profile, notify_after)
+pyaws.copy_dir(source_dir, save_dir, profile, notify_after)
 after = time.time()
 
-print(num_b / (after - before) / 1000)
+print(totalsize / (after - before) / 1000)
 
 #-------------------------------------------------- 
 
@@ -74,7 +76,6 @@ def fast_upload(
 bucketname = 'speed-demo-bucket'
 s3dir = 'imgs'
 filelist = [os.path.join(source_dir, f) for f in os.listdir(source_dir)]
-totalsize = sum([os.stat(f).st_size for f in filelist])
 
 with tqdm(
     desc='upload', ncols=60, total=totalsize, unit='B', unit_scale=1

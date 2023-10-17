@@ -48,8 +48,7 @@ _copy_dir() {
       --recursive \
       --profile $PROFILE > /dev/null 2>&1
   else
-    # aws s3 cp "$SOURCE_DIR" "$SAVE_DIR" \
-    aws --no-verify-ssl s3 cp "$SOURCE_DIR" "$SAVE_DIR" \
+    aws s3 cp "$SOURCE_DIR" "$SAVE_DIR" \
       --recursive \
       --profile $PROFILE | while IFS= read -r line; do
       ((file_count++))
