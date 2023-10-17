@@ -43,7 +43,6 @@ print(num_b / (after - 7 - before) / 1000 / 1000)
 
 #-------------------------------------------------- 
 
-
 bucketname = 'speed-demo-bucket'
 s3dir = 'imgs'
 filelist = [os.path.join(source_dir, f) for f in os.listdir(source_dir)]
