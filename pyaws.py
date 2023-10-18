@@ -205,7 +205,6 @@ def fast_upload(
     filelist, 
     progress_func, 
     workers=20,
-    transfer_type="upload"
     ):
     """
     Taken from...
@@ -265,22 +264,88 @@ def fast_upload(
     s3t = s3transfer.create_transfer_manager(s3client, transfer_config)
     for src in filelist:
         dst = os.path.join(s3dir, os.path.basename(src))
-        if transfer_type == "upload":
-            s3t.upload(
-                src, bucketname, dst,
-                subscribers=[
-                    s3transfer.ProgressCallbackInvoker(progress_func),
-                ],
-            )
-        elif transfer_type == "download":
-            s3t.download(
-                bucketname, dst, src, 
-                subscribers=[
-                    s3transfer.ProgressCallbackInvoker(progress_func),
-                ],
-            )
+        s3t.upload(
+            src, bucketname, dst,
+            subscribers=[
+                s3transfer.ProgressCallbackInvoker(progress_func),
+            ],
+        )
     s3t.shutdown()  # wait for all the upload tasks to finish
 
+
+def fast_downlaod(
+    session, 
+    bucketname, 
+    keylist, 
+    localdir, 
+    progress_func, 
+    workers=20,
+    ):
+    """
+    Taken from...
+    https://stackoverflow.com/questions/56639630/how-can-i-increase-my-aws-s3-upload-speed-when-using-boto3
+
+    Parameters
+    ----------
+    session: boto3.session()
+    bucketname: str
+    s3dir: str
+        the folder path within the bucket
+    filelist:
+        list of local files to be moved to the bucket
+    progress_func: tqdm
+    workers: int
+
+    Example
+    -------
+    from tqdm import tqdm
+    import pyaws
+    import os
+    import time
+    import os
+    import boto3
+    import json
+    
+    # get the access and secret keys to the aws account
+    with open("/home/nicholas/.credentials/password.json") as oj:
+        pw = json.load(oj)
+    
+    ACCESS_KEY = pw['aws_ACCESS_KEY_nick']
+    SECRET_ACCESS_KEY = pw['aws_SECRET_ACCESS_KEY_nick']
+
+    session = boto3.Session(
+        aws_access_key_id=ACCESS_KEY,
+        aws_secret_access_key=SECRET_ACCESS_KEY,
+        profile_name="nick",
+        region_name="us-east-1"
+    )
+    bucketname = 'celeba-demo-bucket'
+    s3dir = 'imgs'
+    filelist = [os.path.join(source_dir, f) for f in os.listdir(source_dir)]
+    totalsize = sum([os.stat(f).st_size for f in filelist])
+    
+    with tqdm(
+        desc='upload', ncols=60, total=totalsize, unit='B', unit_scale=1
+    ) as pbar:
+        fast_upload(session, bucketname, s3dir, filelist, pbar.update, workers=50)
+    """
+
+    botocore_config = botocore.config.Config(max_pool_connections=workers)
+    s3client = session.client('s3', config=botocore_config)
+    transfer_config = s3transfer.TransferConfig(
+        use_threads=True,
+        max_concurrency=workers,
+    )
+    s3t = s3transfer.create_transfer_manager(s3client, transfer_config)
+    for src in keylist:
+        dst = os.path.join(localdir, os.path.basename(src))
+        s3t.download(
+            bucketname, src, dst,
+            subscribers=[
+                s3transfer.ProgressCallbackInvoker(progress_func),
+            ],
+        )
+    s3t.shutdown()  # wait for all the upload tasks to finish
 
 
 

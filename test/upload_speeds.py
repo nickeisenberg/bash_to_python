@@ -25,7 +25,15 @@ session = boto3.Session(
 s3_res = session.resource('s3')
 
 bucket = s3_res.Bucket('speed-demo-bucket')
+
+bucket_objects = [
+    x.key 
+    for x in bucket.objects.filter(Prefix="imgs/").all() 
+    if x.key.endswith('jpg')
+]
+
 _ = bucket.objects.filter(Prefix="imgs/").delete()
+
 bucket.put_object(Key="imgs/")
 
 #-------------------------------------------------- 
@@ -65,6 +73,18 @@ with tqdm(
     )
 
 
+with tqdm(
+    desc='download', ncols=60, total=totalsize, unit='B', unit_scale=1
+) as pbar:
+    pyaws.fast_upload(
+        session, 
+        bucketname, 
+        s3dir, 
+        filelist, 
+        pbar.update, 
+        workers=20,
+        transfer_type="download"
+    )
 
 
 
