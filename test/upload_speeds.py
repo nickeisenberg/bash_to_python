@@ -20,6 +20,7 @@ session = boto3.Session(
     region_name="us-west-1"
 )
 
+
 # delete and remake the folder
 s3_res = session.resource('s3')
 
@@ -43,12 +44,28 @@ print(num_b / (after - 7 - before) / 1000 / 1000)
 
 #-------------------------------------------------- 
 
+# source_dir = "/home/nicholas/Datasets/CelebA/batched"
+source_dir = "/home/nicholas/Datasets/CelebA/img64_1000"
 bucketname = 'speed-demo-bucket'
 s3dir = 'imgs'
 filelist = [os.path.join(source_dir, f) for f in os.listdir(source_dir)]
 totalsize = sum([os.stat(f).st_size for f in filelist])
+print(totalsize / 1e6)
 
 with tqdm(
     desc='upload', ncols=60, total=totalsize, unit='B', unit_scale=1
 ) as pbar:
-    pyaws.fast_upload(session, bucketname, s3dir, filelist, pbar.update, workers=50)
+    pyaws.fast_upload(
+        session, 
+        bucketname, 
+        s3dir, 
+        filelist, 
+        pbar.update, 
+        workers=20
+    )
+
+
+
+
+
+

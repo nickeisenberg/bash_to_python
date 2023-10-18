@@ -204,7 +204,8 @@ def fast_upload(
     s3dir, 
     filelist, 
     progress_func, 
-    workers=20
+    workers=20,
+    transfer_type="upload"
     ):
     """
     Taken from...
@@ -261,15 +262,23 @@ def fast_upload(
         use_threads=True,
         max_concurrency=workers,
     )
-    s3t = s3transfer.create_transfer_manager(s3client, transfer_config)
+    s3t = s3transfer.create_transfer_manager(s3client, transfer_config)boto3 upload
     for src in filelist:
         dst = os.path.join(s3dir, os.path.basename(src))
-        s3t.upload(
-            src, bucketname, dst,
-            subscribers=[
-                s3transfer.ProgressCallbackInvoker(progress_func),
-            ],
-        )
+        if transfer_type == "upload":
+            s3t.upload(
+                src, bucketname, dst,
+                subscribers=[
+                    s3transfer.ProgressCallbackInvoker(progress_func),
+                ],
+            )
+        elif transfer_type == "download":
+            s3t.download(
+                bucketname, dst, src, 
+                subscribers=[
+                    s3transfer.ProgressCallbackInvoker(progress_func),
+                ],
+            )
     s3t.shutdown()  # wait for all the upload tasks to finish
 
 
