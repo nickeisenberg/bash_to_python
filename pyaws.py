@@ -262,7 +262,7 @@ def fast_upload(
         use_threads=True,
         max_concurrency=workers,
     )
-    s3t = s3transfer.create_transfer_manager(s3client, transfer_config)boto3 upload
+    s3t = s3transfer.create_transfer_manager(s3client, transfer_config)
     for src in filelist:
         dst = os.path.join(s3dir, os.path.basename(src))
         if transfer_type == "upload":
