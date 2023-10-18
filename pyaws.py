@@ -273,7 +273,7 @@ def fast_upload(
     s3t.shutdown()  # wait for all the upload tasks to finish
 
 
-def fast_downlaod(
+def fast_download(
     session, 
     bucketname, 
     keylist, 

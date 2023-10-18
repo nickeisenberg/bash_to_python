@@ -6,7 +6,9 @@ import os
 import boto3
 import json
 
+#--------------------------------------------------
 # get the access and secret keys to the aws account
+#--------------------------------------------------
 with open("/home/nicholas/.credentials/password.json") as oj:
     pw = json.load(oj)
 
@@ -19,25 +21,23 @@ session = boto3.Session(
     profile_name="nick",
     region_name="us-west-1"
 )
+#--------------------------------------------------
 
 
-# delete and remake the folder
+#--------------------------------------------------
+# delete and remake the folder for testing
+#--------------------------------------------------
 s3_res = session.resource('s3')
-
 bucket = s3_res.Bucket('speed-demo-bucket')
-
-bucket_objects = [
-    x.key 
-    for x in bucket.objects.filter(Prefix="imgs/").all() 
-    if x.key.endswith('jpg')
-]
-
 _ = bucket.objects.filter(Prefix="imgs/").delete()
 
 bucket.put_object(Key="imgs/")
+#--------------------------------------------------
+
 
 #-------------------------------------------------- 
-
+# copy_dir testing.
+#-------------------------------------------------- 
 source_dir = "/home/nicholas/Datasets/CelebA/batched"
 num_b = sum([os.stat(os.path.join(source_dir, f)).st_size for f in os.listdir(source_dir)])
 save_dir = "s3://speed-demo-bucket/imgs"
@@ -49,10 +49,11 @@ pyaws.copy_dir(source_dir, save_dir, profile, notify_after)
 after = time.time()
 
 print(num_b / (after - 7 - before) / 1000 / 1000)
-
 #-------------------------------------------------- 
 
-# source_dir = "/home/nicholas/Datasets/CelebA/batched"
+#-------------------------------------------------- 
+# fast_upload and fast_download testing
+#-------------------------------------------------- 
 source_dir = "/home/nicholas/Datasets/CelebA/img64_1000"
 bucketname = 'speed-demo-bucket'
 s3dir = 'imgs'
@@ -73,19 +74,30 @@ with tqdm(
     )
 
 
+s3_res = session.resource('s3')
+bucketname = 'speed-demo-bucket'
+bucket = s3_res.Bucket(bucketname)
+bucket_objects = [
+    x.key 
+    for x in bucket.objects.filter(Prefix="imgs/") 
+    if x.key.endswith('jpg')
+]
+object_sizes = [
+    x.size 
+    for x in bucket.objects.filter(Prefix="imgs/") 
+    if x.key.endswith('jpg')
+]
+totalsize = sum(object_sizes)
+localdir = "/home/nicholas/Datasets/CelebA/ret"
+
 with tqdm(
     desc='download', ncols=60, total=totalsize, unit='B', unit_scale=1
 ) as pbar:
-    pyaws.fast_upload(
+    pyaws.fast_download(
         session, 
         bucketname, 
-        s3dir, 
-        filelist, 
+        bucket_objects, 
+        localdir, 
         pbar.update, 
-        workers=20,
-        transfer_type="download"
+        workers=20
     )
-
-
-
-
