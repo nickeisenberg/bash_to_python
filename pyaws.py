@@ -289,10 +289,10 @@ def fast_download(
     ----------
     session: boto3.session()
     bucketname: str
-    s3dir: str
-        the folder path within the bucket
-    filelist:
-        list of local files to be moved to the bucket
+    keylist: str
+        the full key of the object in the bucket you want downloaded
+    localdir:
+        the full path on your local machine where you want the data downloaded to
     progress_func: tqdm
     workers: int
 
@@ -306,7 +306,6 @@ def fast_download(
     import boto3
     import json
     
-    # get the access and secret keys to the aws account
     with open("/home/nicholas/.credentials/password.json") as oj:
         pw = json.load(oj)
     
@@ -319,15 +318,34 @@ def fast_download(
         profile_name="nick",
         region_name="us-east-1"
     )
-    bucketname = 'celeba-demo-bucket'
-    s3dir = 'imgs'
-    filelist = [os.path.join(source_dir, f) for f in os.listdir(source_dir)]
-    totalsize = sum([os.stat(f).st_size for f in filelist])
+
+    s3_res = session.resource('s3')
+    bucketname = 'speed-demo-bucket'
+    bucket = s3_res.Bucket(bucketname)
+    bucket_objects = [
+        x.key 
+        for x in bucket.objects.filter(Prefix="imgs/") 
+        if x.key.endswith('jpg')
+    ]
+    object_sizes = [
+        x.size 
+        for x in bucket.objects.filter(Prefix="imgs/") 
+        if x.key.endswith('jpg')
+    ]
+    totalsize = sum(object_sizes)
+    localdir = "/home/nicholas/Datasets/CelebA/ret"
     
     with tqdm(
-        desc='upload', ncols=60, total=totalsize, unit='B', unit_scale=1
+        desc='download', ncols=60, total=totalsize, unit='B', unit_scale=1
     ) as pbar:
-        fast_upload(session, bucketname, s3dir, filelist, pbar.update, workers=50)
+        pyaws.fast_download(
+            session, 
+            bucketname, 
+            bucket_objects, 
+            localdir, 
+            pbar.update, 
+            workers=20
+        )
     """
 
     botocore_config = botocore.config.Config(max_pool_connections=workers)
