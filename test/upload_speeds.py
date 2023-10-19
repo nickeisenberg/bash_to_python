@@ -64,7 +64,7 @@ before = time.time()
 pyaws.copy_dir(source_dir, save_dir, profile, notify_after)
 after = time.time()
 
-pyaws.awscp_recursive(source_dir, save_dir, profile)
+pyaws.awscp_recursive(source_dir, save_dir, profile, notify_after=1)
 
 # Only an estimate. Cant tell when the connection is made and upload starts....
 print(num_b / (after - 7 - before) / 1000 / 1000)

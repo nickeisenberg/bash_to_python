@@ -178,7 +178,7 @@ def awscp_recursive(
                     message += str.join(" ", line[1:4]) 
                     message += "    SPEED " 
                     message += str.join(" ", line[4:])
-                    print(message, end='')
+                    print(message, end='\n')
 
     except subprocess.CalledProcessError as e:
         print(f"Error calling the Bash script: {e}")
