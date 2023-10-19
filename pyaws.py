@@ -2,6 +2,7 @@ import subprocess
 import os
 import botocore
 import boto3.s3.transfer as s3transfer
+from tqdm import tqdm
 
 #--------------------------------------------------
 # Get the path to the pyaws folder. This allows the bash scripts to be called
@@ -170,15 +171,17 @@ def cp_recursive(
             universal_newlines=True
         ) as p:
             count = 0
-            for line in p.stdout:
-                count += 1 
-                if count % notify_after == 0:
-                    line = line.split(" ")[:6]
-                    message = "PROGRESS " 
-                    message += str.join(" ", line[1:4]) 
-                    message += "    SPEED " 
-                    message += str.join(" ", line[4:])
-                    print(message, end='\n')
+            for line in tqdm(p.stdout):
+                print(line, end='')
+            # for line in p.stdout:
+                # count += 1 
+                # if count % notify_after == 0:
+                #     line = line.split(" ")[:6]
+                #     message = "PROGRESS " 
+                #     message += str.join(" ", line[1:4]) 
+                #     message += "    SPEED " 
+                #     message += str.join(" ", line[4:])
+                #     print(message, end='\n')
 
     except subprocess.CalledProcessError as e:
         print(f"Error calling the Bash script: {e}")
