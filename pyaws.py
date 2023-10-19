@@ -113,6 +113,10 @@ def cp_recursive(
     ):
 
     """
+    Link to overwrite previously printed lines
+
+    https://itnext.io/overwrite-previously-printed-lines-4218a9563527
+
     A python function that calls a bash function that applies 
     aws s3 cp --recurisve on a whole local directory. According to the internet
     aws s3 cp is faster aws s3 sync and I believe both of these are faster than
@@ -181,10 +185,6 @@ def cp_recursive(
                     message += str.join(" ", line[4:])
                     print(message, end='\n')
                     print('\033[1A', end='\x1b[2K')
-            try:
-                print(message, end='\n')
-            except:
-                print("messge not defined")
 
     except subprocess.CalledProcessError as e:
         print(f"Error calling the Bash script: {e}")
