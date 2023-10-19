@@ -63,6 +63,19 @@ after = time.time()
 
 pyaws.cp_recursive(source_dir, save_dir, profile, notify_after=1)
 
+with tqdm(
+    desc='upload', ncols=60, total=totalsize, unit='B', unit_scale=1
+) as pbar:
+    pyaws.cp_recursive(
+        source_dir, 
+        save_dir, 
+        profile,
+        pbar.update
+    )
+
+
+
+
 pyaws.sync(source_dir, save_dir, profile, notify_after=1)
 
 # Only an estimate. Cant tell when the connection is made and upload starts....
