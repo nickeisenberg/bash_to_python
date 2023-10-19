@@ -28,11 +28,10 @@ awssync() {
   done
 
   aws s3 sync $source_dir $save_dir \
-    --profile $profile \
-
+    --profile $profile
 }
 
-awscp "$@"
+awssync "$@"
 
 
 
