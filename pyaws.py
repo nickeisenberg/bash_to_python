@@ -172,7 +172,7 @@ def cp_recursive(
         ) as p:
             count = 0
             for line in tqdm(p.stdout):
-                print(line, end='')
+                pass
             # for line in p.stdout:
                 # count += 1 
                 # if count % notify_after == 0:
