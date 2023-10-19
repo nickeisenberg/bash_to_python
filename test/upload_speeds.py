@@ -5,6 +5,23 @@ import time
 import os
 import boto3
 import json
+from torchvision import transforms
+
+#--------------------------------------------------
+# Example image
+#--------------------------------------------------
+rootdir = "/home/nicholas/Datasets/CelebA/img_align_celeba"
+transform = transforms.Compose(
+    [
+        transforms.ToTensor()
+    ]
+)
+
+img_names = os.listdir(rootdir)
+img = Image.open(os.path.join(rootdir, img_names[0]))
+img_t = transform(img)
+#--------------------------------------------------
+
 
 #--------------------------------------------------
 # get the access and secret keys to the aws account
@@ -30,7 +47,6 @@ session = boto3.Session(
 s3_res = session.resource('s3')
 bucket = s3_res.Bucket('speed-demo-bucket')
 _ = bucket.objects.filter(Prefix="imgs/").delete()
-
 bucket.put_object(Key="imgs/")
 #--------------------------------------------------
 
@@ -48,13 +64,15 @@ before = time.time()
 pyaws.copy_dir(source_dir, save_dir, profile, notify_after)
 after = time.time()
 
+# Only an estimate. Cant tell when the connection is made and upload starts....
 print(num_b / (after - 7 - before) / 1000 / 1000)
 #-------------------------------------------------- 
 
 #-------------------------------------------------- 
 # fast_upload and fast_download testing
 #-------------------------------------------------- 
-source_dir = "/home/nicholas/Datasets/CelebA/img64_1000"
+# source_dir = "/home/nicholas/Datasets/CelebA/img_align_celeba_10000"
+source_dir = "/home/nicholas/Datasets/CelebA/batched"
 bucketname = 'speed-demo-bucket'
 s3dir = 'imgs'
 filelist = [os.path.join(source_dir, f) for f in os.listdir(source_dir)]
@@ -70,7 +88,7 @@ with tqdm(
         s3dir, 
         filelist, 
         pbar.update, 
-        workers=20
+        workers=10
     )
 
 
@@ -89,6 +107,7 @@ object_sizes = [
 ]
 totalsize = sum(object_sizes)
 localdir = "/home/nicholas/Datasets/CelebA/ret"
+len(bucket_objects)
 
 with tqdm(
     desc='download', ncols=60, total=totalsize, unit='B', unit_scale=1
