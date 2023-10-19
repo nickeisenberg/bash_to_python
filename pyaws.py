@@ -181,6 +181,10 @@ def cp_recursive(
                     message += str.join(" ", line[4:])
                     print(message, end='\n')
                     print('\033[1A', end='\x1b[2K')
+            try:
+                print(message, end='\n')
+            except:
+                print("messge not defined")
 
     except subprocess.CalledProcessError as e:
         print(f"Error calling the Bash script: {e}")
