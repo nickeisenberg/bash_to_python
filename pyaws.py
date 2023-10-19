@@ -108,6 +108,7 @@ def awscp_recursive(
     source_dir, 
     save_dir,
     profile,
+    notify_after = 1
     ):
 
     """
@@ -168,8 +169,16 @@ def awscp_recursive(
             bufsize=1,
             universal_newlines=True
         ) as p:
+            count = 0
             for line in p.stdout:
-                print(line, end='')
+                count += 1 
+                if count % notify_after == 0:
+                    line = line.split(" ")[:6]
+                    message = "PROGRESS " 
+                    message += str.join(" ", line[1:4]) 
+                    message += "    SPEED " 
+                    message += str.join(" ", line[4:])
+                    print(message, end='')
 
     except subprocess.CalledProcessError as e:
         print(f"Error calling the Bash script: {e}")
@@ -178,12 +187,6 @@ def awscp_recursive(
         print(f"Bash script not found: {e}")
 
     return None
-
-
-
-
-
-
 
 
 def sync_dir(

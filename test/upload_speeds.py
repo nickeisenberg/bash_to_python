@@ -6,6 +6,7 @@ import os
 import boto3
 import json
 from torchvision import transforms
+import re
 
 #--------------------------------------------------
 # Example image
@@ -21,7 +22,6 @@ img_names = os.listdir(rootdir)
 img = Image.open(os.path.join(rootdir, img_names[0]))
 img_t = transform(img)
 #--------------------------------------------------
-
 
 #--------------------------------------------------
 # get the access and secret keys to the aws account
@@ -63,6 +63,8 @@ notify_after = 1
 before = time.time()
 pyaws.copy_dir(source_dir, save_dir, profile, notify_after)
 after = time.time()
+
+pyaws.awscp_recursive(source_dir, save_dir, profile)
 
 # Only an estimate. Cant tell when the connection is made and upload starts....
 print(num_b / (after - 7 - before) / 1000 / 1000)

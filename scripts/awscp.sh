@@ -26,7 +26,7 @@ awscp() {
         ;;
     esac
   done
-  
+
   aws s3 cp $source_dir $save_dir \
     --profile $profile \
     --recursive
