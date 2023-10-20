@@ -16,7 +16,6 @@ transform = transforms.Compose(
         transforms.ToTensor()
     ]
 )
-
 img_names = os.listdir(rootdir)
 img = Image.open(os.path.join(rootdir, img_names[0]))
 img_t = transform(img)
@@ -61,18 +60,6 @@ pyaws.copy_dir(source_dir, save_dir, profile, notify_after)
 after = time.time()
 
 pyaws.cp_recursive(source_dir, save_dir, profile, notify_after=1)
-
-with tqdm(
-    desc='upload', ncols=60, total=totalsize, unit='B', unit_scale=1
-) as pbar:
-    pyaws.cp_recursive(
-        source_dir, 
-        save_dir, 
-        profile,
-        pbar.update
-    )
-
-
 
 
 pyaws.sync(source_dir, save_dir, profile, notify_after=1)

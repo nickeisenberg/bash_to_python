@@ -293,7 +293,6 @@ def sync(
     source_dir, 
     save_dir,
     profile,
-    pbar,
     notify_after = 1
     ):
 
@@ -355,24 +354,16 @@ def sync(
             bufsize=1,
             universal_newlines=True
         ) as p:
-            # count = 0
-            # for line in p.stdout:
-            #     count += 1 
-            #     if count % notify_after == 0:
-            #         line = line.split(" ")[:6]
-            #         message = "PROGRESS " 
-            #         message += str.join(" ", line[1:4]) 
-            #         message += "    SPEED " 
-            #         message += str.join(" ", line[4:])
-            #         print(message, end='\n')
             count = 0
-            prev = 0.
             for line in p.stdout:
                 count += 1 
                 if count % notify_after == 0:
                     line = line.split(" ")[:6]
-                    curr = float(line[1])
-                    pbar.update(curr - prev)
+                    message = "PROGRESS " 
+                    message += str.join(" ", line[1:4]) 
+                    message += "    SPEED " 
+                    message += str.join(" ", line[4:])
+                    print(message, end='\n')
 
     except subprocess.CalledProcessError as e:
         print(f"Error calling the Bash script: {e}")
