@@ -7,6 +7,7 @@ import boto3
 import json
 from torchvision import transforms
 
+
 #--------------------------------------------------
 # Example image
 #--------------------------------------------------
@@ -53,19 +54,16 @@ source_dir = "/home/nicholas/Datasets/CelebA/batched"
 num_b = sum([os.stat(os.path.join(source_dir, f)).st_size for f in os.listdir(source_dir)])
 save_dir = "s3://speed-demo-bucket/imgs"
 profile = "nick"
-notify_after = 1
 
-before = time.time()
-pyaws.copy_dir(source_dir, save_dir, profile, notify_after)
-after = time.time()
+log_file = "/home/nicholas/Tmp/update.log"
+pyaws.sync(
+    source_dir, save_dir, profile, generate_logfile_to=log_file
+)
 
-pyaws.cp_recursive(source_dir, save_dir, profile, notify_after=1)
+pyaws.cp_recursive(
+    source_dir, save_dir, profile
+)
 
-pyaws.sync(source_dir, save_dir, profile, notify_after=1)
-
-# Only an estimate. Cant tell when the connection is made and upload starts....
-print(num_b / (after - 7 - before) / 1000 / 1000)
-#-------------------------------------------------- 
 
 #-------------------------------------------------- 
 # fast_upload and fast_download testing
