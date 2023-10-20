@@ -84,7 +84,7 @@ with tqdm(
         bucketname, 
         s3dir, 
         filelist, 
-        pbar.update, 
+        pbar, 
         workers=10
     )
 
@@ -95,16 +95,17 @@ bucket = s3_res.Bucket(bucketname)
 bucket_objects = [
     x.key 
     for x in bucket.objects.filter(Prefix="imgs/") 
-    if x.key.endswith('jpg')
+    if x.key.endswith('zip')
 ]
 object_sizes = [
     x.size 
     for x in bucket.objects.filter(Prefix="imgs/") 
-    if x.key.endswith('jpg')
+    if x.key.endswith('zip')
 ]
 totalsize = sum(object_sizes)
 localdir = "/home/nicholas/Datasets/CelebA/ret"
 len(bucket_objects)
+
 
 with tqdm(
     desc='download', ncols=60, total=totalsize, unit='B', unit_scale=1
@@ -114,6 +115,6 @@ with tqdm(
         bucketname, 
         bucket_objects, 
         localdir, 
-        pbar.update, 
+        pbar, 
         workers=20
     )
