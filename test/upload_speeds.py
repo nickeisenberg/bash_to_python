@@ -1,5 +1,5 @@
 from tqdm import tqdm
-import pyaws.pyaws as pyaws
+import pyaws
 import os
 import time
 import os
@@ -60,7 +60,6 @@ pyaws.copy_dir(source_dir, save_dir, profile, notify_after)
 after = time.time()
 
 pyaws.cp_recursive(source_dir, save_dir, profile, notify_after=1)
-
 
 pyaws.sync(source_dir, save_dir, profile, notify_after=1)
 
