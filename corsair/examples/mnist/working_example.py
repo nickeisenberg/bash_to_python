@@ -10,7 +10,6 @@ from experiments.mnist.classifier import run_mnist_classification_exp
 from experiments.network_templates import Classifier
 
 
-
 class MModel(Classifier):
     def __init__(self):
         name = 'mnist_classifier'
@@ -51,7 +50,11 @@ class MModel(Classifier):
         x = self.fc2(x)
         return x
 
-    def train_pass(self, input: torch.Tensor, label: torch.Tensor):
+    def train_pass(
+            self, 
+            input: torch.Tensor, 
+            label: torch.Tensor):
+
         # define what your network does on a trainining instance
         self.optimizer.zero_grad()
         guess = self.forward(input)
@@ -72,14 +75,14 @@ class MModel(Classifier):
 if __name__ == '__main__':
     my_model = MModel()
 
-# below are the the hyperparameters you can change for your experimental run
+    # below are the the hyperparameters you can change for your experimental run
 
-run_mnist_classification_exp(
-    neural_net=my_model,
-    save_root=os.getcwd(),  # Save function no implemented yet.
-    train_batch_size=100,
-    test_batch_size=100,
-    number_of_epochs=2,
-    name='mnist-experiment',
-    device='cuda'
-)
+    run_mnist_classification_exp(
+        neural_net=my_model,
+        save_root=os.getcwd(),  # Save function no implemented yet.
+        train_batch_size=100,
+        test_batch_size=100,
+        number_of_epochs=2,
+        name='mnist-experiment',
+        device='cuda'
+    )

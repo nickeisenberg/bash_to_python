@@ -46,3 +46,4 @@ class Classifier(NeuralNetwork):
         guess = self.forward(inputs)
         classification = torch.argmax(guess, dim=1)
         return classification
+

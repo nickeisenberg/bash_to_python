@@ -1,5 +1,5 @@
 from torch.utils.data import DataLoader
-from experiments.experiment_bases import ClassifierExperiment
+from experiments.bases import ClassifierExperiment
 from experiments.network_templates import Classifier
 
 from experiments.util import add_class_names, add_data_unpacker, default_unpacker
@@ -12,11 +12,13 @@ class MNISTClassifierExperiment(ClassifierExperiment):
             self, 
             neural_net: Classifier,
             save_root: str,
+            path_to_train,
+            path_to_test,
+            download_imgs=False,
             train_batch_size: int = 100,
             test_batch_size: int = 100,
             number_of_epochs: int = 4,
             name: str = 'mnist-experiment',
-            trial_number: int = 1, 
             device: str = 'cpu'):
 
 
@@ -25,9 +27,9 @@ class MNISTClassifierExperiment(ClassifierExperiment):
         
         #--------------------------------------------------
         train_dataset = torchvision.datasets.MNIST(
-                '/_data/', 
+                path_to_train, 
                 train=True, 
-                download=True,
+                download=download_imgs,
                 transform=torchvision.transforms.Compose([
                     torchvision.transforms.ToTensor(),
                     torchvision.transforms.Normalize(
@@ -45,9 +47,9 @@ class MNISTClassifierExperiment(ClassifierExperiment):
 
         #--------------------------------------------------
         test_dataset = torchvision.datasets.MNIST(
-                '/_data/', 
+                path_to_test, 
                 train=False, 
-                download=True,
+                download=download_imgs,
                 transform=torchvision.transforms.Compose([
                     torchvision.transforms.ToTensor(),
                     torchvision.transforms.Normalize(
@@ -83,8 +85,8 @@ def run_mnist_classification_exp(
         train_batch_size=100,
         test_batch_size=100,
         number_of_epochs=30,
-        name='mnist-experiment', trials=1, device='cpu'
-):
+        name='mnist-experiment', trials=1, device='cpu'):
+
     '''
     function that runs the MNISTClassifierExperiment class 
 
@@ -107,11 +109,14 @@ def run_mnist_classification_exp(
     '''
     for trial_number in range(trials):
         print(f' Starting experiment on {device}')
-        experiment = MNISTClassifierExperiment(neural_net=neural_net,
-                                               save_root=save_root,
-                                               train_batch_size=train_batch_size,
-                                               test_batch_size=test_batch_size,
-                                               number_of_epochs=number_of_epochs,
-                                               name=name, trial_number=trial_number, device=device
-                                               )
+        experiment = MNISTClassifierExperiment(
+                neural_net=neural_net,
+                save_root=save_root,
+                train_batch_size=train_batch_size,
+                test_batch_size=test_batch_size,
+                number_of_epochs=number_of_epochs,
+                name=name, 
+                trial_number=trial_number, 
+                device=device)
+
         experiment.run()

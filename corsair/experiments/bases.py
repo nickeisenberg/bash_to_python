@@ -54,16 +54,17 @@ class ClassifierExperiment(_ExperimentBase):
         self.neural_net.set_losses()
         self.neural_net.to(device)
         self.number_of_epochs = number_of_epochs
-        # self.device = neural_net.device
         self.neural_net.to(self.device)
 
 
     def run(self):
+        
         self._train()
         self._gather_results()
 
 
     def _train(self):
+
         for i in range(self.number_of_epochs):
             # This needs to be removed loss calculations need to be handeled by the network or a logger.
             running_loss: float = 0.0

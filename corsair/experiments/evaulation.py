@@ -76,3 +76,6 @@ def get_confusion_matrix(neural_net: Classifier, test_dataloader, device):
     cm = make_confusion_matrix(actual, guess)
     class_names = test_dataloader.dataset._class_names
     plot_confusion_matrix(cm, accuracy, class_names=class_names)
+
+
+
