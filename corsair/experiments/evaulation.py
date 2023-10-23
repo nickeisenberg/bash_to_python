@@ -3,6 +3,7 @@ from sklearn.metrics import confusion_matrix
 import numpy
 import matplotlib.pyplot as plt
 import itertools
+from types import NoneType
 
 from experiments.network_templates import Classifier
 
@@ -31,10 +32,12 @@ def get_acutal_guess_list(neural_net: Classifier,
     return actual, guess
 
 
-def plot_confusion_matrix(confusion_matrix: numpy.ndarray, accuracy,
-                          cmap=plt.get_cmap('Blues'),
-                          class_names: List[str] = None,
-                          ):
+def plot_confusion_matrix(
+        confusion_matrix: numpy.ndarray, 
+        accuracy,
+        cmap=plt.get_cmap('Blues'),
+        class_names: List[str] | NoneType = None,
+        ):
 
     rows = confusion_matrix.shape[0]
     columns = confusion_matrix.shape[1]

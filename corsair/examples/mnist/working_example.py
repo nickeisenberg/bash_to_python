@@ -6,7 +6,7 @@ import torch.optim as optim
 from torch import Tensor
 import os
 
-from experiments.mnist_experiment.mnist_exp import run_mnist_classification_exp
+from experiments.mnist.classifier import run_mnist_classification_exp
 from experiments.network_templates import Classifier
 
 

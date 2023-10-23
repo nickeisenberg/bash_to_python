@@ -3,8 +3,6 @@ import torch
 from torch import Tensor
 from abc import ABC
 from torch import nn, Tensor
-from torch.utils.data import DataLoader
-from torch.optim import Optimizer
 from experiments.util import optional
 
 

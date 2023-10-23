@@ -6,51 +6,75 @@ from experiments.util import add_class_names, add_data_unpacker, default_unpacke
 
 import torchvision
 
-
 class MNISTClassifierExperiment(ClassifierExperiment):
 
-    def __init__(self, neural_net: Classifier, save_root: str,
-                 train_batch_size: int = 100,
-                 test_batch_size: int = 100,
-                 number_of_epochs: int = 4,
-                 name: str = 'mnist-experiment',
-                 trial_number: int = 1, device: str = 'cpu'
-                 ):
+    def __init__(
+            self, 
+            neural_net: Classifier,
+            save_root: str,
+            train_batch_size: int = 100,
+            test_batch_size: int = 100,
+            number_of_epochs: int = 4,
+            name: str = 'mnist-experiment',
+            trial_number: int = 1, 
+            device: str = 'cpu'):
+
+
         save_file_name = name + neural_net.name
         class_names = [f'digit {i}' for i in range(10)]
-
-        train_dataset = torchvision.datasets.MNIST('/_data/', train=True, download=True,
-                                                   transform=torchvision.transforms.Compose([
-                                                       torchvision.transforms.ToTensor(),
-                                                       torchvision.transforms.Normalize(
-                                                           (0.1307,), (0.3081,))]))
+        
+        #--------------------------------------------------
+        train_dataset = torchvision.datasets.MNIST(
+                '/_data/', 
+                train=True, 
+                download=True,
+                transform=torchvision.transforms.Compose([
+                    torchvision.transforms.ToTensor(),
+                    torchvision.transforms.Normalize(
+                        (0.1307,), (0.3081,))
+                    ])
+                )
 
         add_data_unpacker(train_dataset, default_unpacker)
         add_class_names(train_dataset, class_names)
 
         train_loader = DataLoader(
-            train_dataset, batch_size=train_batch_size, shuffle=True)
+            train_dataset, batch_size=train_batch_size, shuffle=True
+            )
+        #--------------------------------------------------
 
-        test_dataset = torchvision.datasets.MNIST('/_data/', train=False, download=True,
-                                                  transform=torchvision.transforms.Compose([
-                                                      torchvision.transforms.ToTensor(),
-                                                      torchvision.transforms.Normalize(
-                                                          (0.1307,), (0.3081,))
-                                                  ]))
+        #--------------------------------------------------
+        test_dataset = torchvision.datasets.MNIST(
+                '/_data/', 
+                train=False, 
+                download=True,
+                transform=torchvision.transforms.Compose([
+                    torchvision.transforms.ToTensor(),
+                    torchvision.transforms.Normalize(
+                        (0.1307,), (0.3081,))
+                                                  
+                    ])
+                )
 
         add_class_names(test_dataset, class_names=class_names)
         add_data_unpacker(test_dataset, default_unpacker)
 
         test_loader = DataLoader(
             test_dataset, batch_size=test_batch_size, shuffle=True)
+        #--------------------------------------------------
 
         # Add required atributes to match dataset interface
 
-        super().__init__(name=name, save_root=save_root,
-                         save_file_name=save_file_name,
-                         neural_net=neural_net, train_dataloader=train_loader,
-                         test_dataloader=test_loader,
-                         number_of_epochs=number_of_epochs, device=device)
+        super().__init__(
+                name=name, 
+                save_root=save_root,
+                save_file_name=save_file_name,
+                neural_net=neural_net, 
+                train_dataloader=train_loader,
+                test_dataloader=test_loader,
+                number_of_epochs=number_of_epochs,
+                device=device)
+
 
 
 def run_mnist_classification_exp(
