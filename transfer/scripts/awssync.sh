@@ -32,9 +32,3 @@ awssync() {
 }
 
 awssync "$@"
-
-
-
-
-
-

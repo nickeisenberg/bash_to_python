@@ -1,6 +1,6 @@
 #! /bin/bash
 
-scp() {
+_scp() {
     # Default values
     local PORT=22
     local SOURCE_PATH=""
@@ -56,4 +56,4 @@ scp() {
     scp -P "$PORT" "$SOURCE_PATH" "${USER}@${IP}:${SAVE_PATH}"
 }
 
-scp "$@"
+_scp "$@"
