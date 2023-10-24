@@ -7,6 +7,7 @@ _scp() {
     local SAVE_PATH=""
     local USER=""
     local IP=""
+    local PEM_FILE=""
 
     # Parse arguments
     while [[ $# -gt 0 ]]
@@ -39,6 +40,11 @@ _scp() {
         shift # past argument
         shift # past value
         ;;
+        --pem)
+        PEM_FILE="$2"
+        shift # past argument
+        shift # past value
+        ;;
         *)
         echo "Unknown argument: $1"
         return 1
@@ -52,8 +58,19 @@ _scp() {
         return 1
     fi
 
-    # Run scp
-    scp -r -P "$PORT" "$SOURCE_PATH" "${USER}@${IP}:${SAVE_PATH}" 2>&1
+    # If a PEM file is provided, use it with the -i option
+    if [[ ! -z "$PEM_FILE" ]]; then
+        scp -v -r -P "$PORT" -i "$PEM_FILE" "$SOURCE_PATH" "${USER}@${IP}:${SAVE_PATH}"
+    else
+        scp -v -r -P "$PORT" "$SOURCE_PATH" "${USER}@${IP}:${SAVE_PATH}"
+    fi
 }
 
 _scp "$@"
+
+
+
+
+
+
+

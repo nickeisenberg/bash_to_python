@@ -1,5 +1,6 @@
 import subprocess
 import os
+from typing import Optional
 import botocore
 import boto3
 import boto3.s3.transfer as s3transfer
@@ -22,12 +23,157 @@ PATH_TO_PYAWS = os.path.join(
 
 #--------------------------------------------------
 
+def scp(
+    source_path: str, 
+    save_path: str,
+    user: str,
+    ip: str,
+    port: str="22", 
+    pem: Optional[str]=None,
+    generate_logfile_to: Optional[str]=None,
+    path_to_bash: Optional[str]=None
+    ):
+
+    """
+    A call to `scp`.
+
+    Parameters
+    ----------
+    port: str, default = 22
+        The port you want to scp with
+
+    source_path: str
+        Either a path to a file or a folder contating files. If `source_path` 
+        is a folder, than all files in the folder will be transfered.
+
+    save_path: str
+        The location on the remote host where you want the files moved to.
+
+    user: str,
+        The user of the remote machine
+
+    ip: str,
+        The ip address of the remote machine
+
+    pem: Optional[str]=None
+        The pem key to access the remote machine
+
+    generate_logfile_to: Optional[str]=None
+        The path you would like a complete log file of the output of `scp`.
+
+    path_to_bash: Optional[str]=None
+        The path to the underlying bash script being called. If None then it 
+        assumes that the `pyaws` module is located where python looks for the libraries,
+        ie in the same folder that `pip show pip | awk '/Location/ {print $2}'`.
+
+    Returns
+    -------
+    None
+
+    Example
+    -------
+    >>> from pyaws.transfer import scp
+    >>> 
+    >>> port = "22"
+    >>> source_path = "/path/to/local/folder"
+    >>> save_path = "/path/to/remote/save/destination"
+    >>> user = "remote_user"
+    >>> ip = "50.1.1.1"
+    >>> path_to_bash = "/path/to/scp/script/script.sh"
+    >>> logfile = "/where/to/save/log/test.log"
+    >>> pem = "/path/to/pem/credentials.pem"
+    >>> 
+    >>> scp(
+    >>>     port, 
+    >>>     source_path, 
+    >>>     save_path, 
+    >>>     user, 
+    >>>     ip,
+    >>>     pem=pem,
+    >>>     generate_logfile_to=logfile,
+    >>>     path_to_bash=path_to_bash
+    >>> )
+    """
+    
+    num_files = 1
+    if os.path.isdir(source_path):
+        num_files = len(os.listdir(source_path))
+
+    if path_to_bash is None:
+        path_to_bash = os.path.join(
+            PATH_TO_PYAWS, 'transfer', 'scripts', 'scp.sh'
+        )
+    
+    if pem is not None:
+        command = [
+            path_to_bash, 
+            "--port", 
+            port, 
+            "--source-path", 
+            source_path, 
+            "--save-path", 
+            save_path, 
+            "--user", 
+            user, 
+            "--ip", 
+            ip,
+            "--pem",
+            pem
+        ]
+    else:
+        command = [
+            path_to_bash, 
+            "--port", 
+            port, 
+            "--source-path", 
+            source_path, 
+            "--save-path", 
+            save_path, 
+            "--user", 
+            user, 
+            "--ip", 
+            ip, 
+        ]
+
+    try:
+        # Call the Bash script with specified parameters
+        with subprocess.Popen(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            bufsize=1,
+            universal_newlines=True
+        ) as p:
+
+            count = 1
+            for line in p.stderr:
+                if line.startswith("Sending"):
+                    f =line.split(" ")[-1]
+                    print(f"{count} / {num_files} : {f}", end="")
+                    print('\033[1A', end='\x1b[2K')
+                    count += 1
+
+                if generate_logfile_to is not None:
+                    with open(generate_logfile_to, "a") as log:
+                        _ = log.write(line + "\n")
+
+            print("All files successfully transfered")
+
+    except subprocess.CalledProcessError as e:
+        print(f"Error calling the Bash script: {e}")
+
+    except FileNotFoundError as e:
+        print(f"Bash script not found: {e}")
+
+    return None
+
+
 def cp_recursive(
     source_dir: str, 
     save_dir: str,
     profile: str,
-    generate_logfile_to: str | None=None,
-    path_to_bash: str | None=None
+    generate_logfile_to: Optional[str]=None,
+    path_to_bash: Optional[str]=None
     ):
 
     """
@@ -39,19 +185,22 @@ def cp_recursive(
     source_dir: str
         The full file path to the local dir containing the files that need to be
         moved.
+
     save_dir: str
         Full path of the dir being saved to.
+
     profile: str
         The name of the profile that is configured with `aws configure`
+
     generate_log_file: str, default None
         The full path to where a log file will be created give the full stdout
         output of the `aws s3 cp` function. If None, then no log file will be 
         generated
-    path_to_bash: str, default None
-        The path to the underlying bash script being called. It default to where
-        `pyaws` if `pyaws` is saved to where python looks for the libraries,
-        ie in the smae folder that `pip show pip | awk '/Location/ {print $2}'`
-        points too.
+
+    path_to_bash: Optional[str]=None
+        The path to the underlying bash script being called. If None then it 
+        assumes that the `pyaws` module is located where python looks for the libraries,
+        ie in the same folder that `pip show pip | awk '/Location/ {print $2}'`.
 
     Returns
     -------
@@ -129,8 +278,8 @@ def sync(
     source_dir: str, 
     save_dir: str,
     profile: str,
-    generate_logfile_to: str | None=None,
-    path_to_bash: str | None=None
+    generate_logfile_to: Optional[str]=None,
+    path_to_bash: Optional[str]=None
     ):
 
     """
@@ -144,19 +293,22 @@ def sync(
     source_dir: str
         The full file path to the local dir containing the files that need to be
         moved.
+
     save_dir: str
         Full path of the dir being saved to.
+
     profile: str
         The name of the profile that is configured with aws configure
+
     generate_log_file: str, default None
         The full path to where a log file will be created give the full stdout
         output of the `aws s3 sync` function. If None, then no log file will be 
         generated
-    path_to_bash: str, default None
-        The path to the underlying bash script being called. It default to where
-        `pyaws` if `pyaws` is saved to where python looks for the libraries,
-        ie in the smae folder that `pip show pip | awk '/Location/ {print $2}'`
-        points too.
+
+    path_to_bash: Optional[str]=None
+        The path to the underlying bash script being called. If None then it 
+        assumes that the `pyaws` module is located where python looks for the libraries,
+        ie in the same folder that `pip show pip | awk '/Location/ {print $2}'`.
 
     Returns
     -------

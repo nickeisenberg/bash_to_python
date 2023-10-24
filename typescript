@@ -1,12 +1,0 @@
-Script started on 2023-10-24 11:12:44-07:00 [TERM="tmux-256color" TTY="/dev/pts/2" COLUMNS="97" LINES="58"]
-# Split the output into lines
-lines = stdout.splitlines()
-# # Print selective lines or process them
-for line in stdout:
-    print(line, end="")
-
-movefile1.txt                                                  100%    0     0.0KB/s   00:00    
-movefile2.txt                                                  100%    0     0.0KB/s   00:00    
-movefile3.txt                                                  100%    0     0.0KB/s   00:00    
-
-Script done on 2023-10-24 11:12:45-07:00 [COMMAND_EXIT_CODE="0"]

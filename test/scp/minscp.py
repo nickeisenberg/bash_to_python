@@ -2,32 +2,41 @@ import subprocess
 
 path_to_bash = "./minscp.sh"
 
-p = subprocess.run(
+p = subprocess.Popen(
     [
         path_to_bash, 
     ],
+    stdout=subprocess.PIPE,
 )
+
 
 with subprocess.Popen(
     [
         path_to_bash, 
     ],
     stderr=subprocess.PIPE,
-    bufsize=1,
     universal_newlines=True
-) as p:
-    for line in p.stderr:
-        print(line)
+    ) as p:
+    for i, line in enumerate(p.stderr):
+        if line.startswith("Sending"):
+            f =line.split(" ")[-1]
+            print(f"{i} : {f}", end="")
+
 
 with subprocess.Popen(
     [
         path_to_bash, 
     ],
+    stderr=subprocess.PIPE,
     stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE
+    bufsize=1,
+    universal_newlines=True
     ) as p:
-    stdout, stderr = p.communicate()
-    stdout = stdout.split("\n")
-    for line in p.stdout:
-        print(line)
+    count = 1
+    for line in p.stderr:
+        if line.startswith("Sending"):
+            f =line.split(" ")[-1]
+            print(f"{count} : {f}", end="")
+            print('\033[1A', end='\x1b[2K')
+            count += 1
 
