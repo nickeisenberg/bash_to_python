@@ -421,6 +421,10 @@ def fast_download(
     s3t.shutdown()  # wait for all the upload tasks to finish
 
 
+#--------------------------------------------------
+# Depreciated below. Will delete soon
+#--------------------------------------------------
+
 def sync_dir(
     source_dir, 
     # bucket_name,
@@ -481,7 +485,7 @@ def sync_dir(
     # path_to_bash = "./scripts"
     # path_to_bash += "/sync_dir.sh"
     path_to_bash = os.path.join(
-        PATH_TO_PYAWS, 'scripts', 'sync_dir.sh'
+        PATH_TO_PYAWS, 'scripts', 'depreciated', 'sync_dir.sh'
     )
 
     try:
@@ -568,7 +572,7 @@ def copy_dir(
     # path_to_bash = "./scripts"
     # path_to_bash += "/copy_dir.sh"
     path_to_bash = os.path.join(
-        PATH_TO_PYAWS, 'scripts', 'copy_dir.sh'
+        PATH_TO_PYAWS, 'scripts', 'depreciated', 'copy_dir.sh'
     )
 
     try:
