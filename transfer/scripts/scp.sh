@@ -53,7 +53,7 @@ _scp() {
     fi
 
     # Run scp
-    scp -P "$PORT" "$SOURCE_PATH" "${USER}@${IP}:${SAVE_PATH}"
+    scp -r -P "$PORT" "$SOURCE_PATH" "${USER}@${IP}:${SAVE_PATH}" 2>&1
 }
 
 _scp "$@"
