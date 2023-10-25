@@ -1,6 +1,6 @@
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
-from transfer import scp
+from ..transfer import scp
 import subprocess
 from typing import Optional
 import os
