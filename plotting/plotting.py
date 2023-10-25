@@ -23,7 +23,7 @@ def start_trigger(
 
     if path_to_bash is None:
         path_to_bash = os.path.join(
-            PATH_TO_PYAWS, 'plotting', 'trigger.sh'
+            PATH_TO_PYAWS, 'plotting', 'scripts', 'trigger.sh'
         )
 
     command = [
