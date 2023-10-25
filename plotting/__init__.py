@@ -1,1 +1,1 @@
-from plotting.plotting import *
+from plotting import *
