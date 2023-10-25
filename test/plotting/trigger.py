@@ -45,4 +45,4 @@ plotter = Plotter(user, ip, save_path, port, path_to_bash=path_to_bash)
 fig = plt.figure()
 plt.plot([1, 2, 3, 4, 5], [1, 3, 2, 4, 1])
 
-plotter.show("test", fig)
+plotter.show("test1", fig)
