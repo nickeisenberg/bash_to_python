@@ -7,12 +7,12 @@ from pyaws.transfer import scp
 import os
 
 
-port = "22"
-source_path = "/home/nicholas/GitRepos/pyaws/_test/scp/move"
-save_path = "/home/ubuntu/movedir"
-user = "ubuntu"
-ip = "54.151.14.242"
-logfile = "/home/nicholas/GitRepos/pyaws/_test/scp/logfiles/logfile.log"
+port = "<port used to scp to remote server>"
+source_path = "/path/to/data/that/needs/to/be/transfered"
+save_path = "/path/to/save/to"
+user = "<login name of remote server>"
+ip = "<pubic_ip of remote server>"
+logfile = "/local/path/to/generate/log/file"
 
 num_files = len(os.listdir(source_path))
 
