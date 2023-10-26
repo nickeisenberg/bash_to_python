@@ -168,13 +168,13 @@ def scp(
                     time.sleep(1)
                     count += 1
 
-                if progress_bar is not None:
-                    if measure_by == "count":
-                        progress_bar.update(1)
-                    elif measure_by == "KiB":
-                        progress_bar.update(file_size / 1000)
-                    elif measure_by == "MiB":
-                        progress_bar.update(file_size / 1000000)
+                    if progress_bar is not None:
+                        if measure_by == "count":
+                            progress_bar.update(1)
+                        elif measure_by == "KiB":
+                            progress_bar.update(file_size / 1000)
+                        elif measure_by == "MiB":
+                            progress_bar.update(file_size / 1000000)
 
                 if generate_logfile_to is not None:
                     with open(generate_logfile_to, "a") as log:

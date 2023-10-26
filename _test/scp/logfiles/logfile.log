@@ -1098,3 +1098,223 @@ Bytes per second: sent 10942.3, received 9397.2
 
 debug1: Exit status 0
 
+Executing: program /usr/bin/ssh host 54.151.14.242, user ubuntu, command scp -v -r -t /home/ubuntu/movedir
+
+OpenSSH_8.9p1 Ubuntu-3ubuntu0.4, OpenSSL 3.0.2 15 Mar 2022
+
+debug1: Reading configuration data /etc/ssh/ssh_config
+
+debug1: /etc/ssh/ssh_config line 19: include /etc/ssh/ssh_config.d/*.conf matched no files
+
+debug1: /etc/ssh/ssh_config line 21: Applying options for *
+
+debug1: Connecting to 54.151.14.242 [54.151.14.242] port 22.
+
+debug1: Connection established.
+
+debug1: identity file /home/nicholas/.ssh/id_rsa type 0
+
+debug1: identity file /home/nicholas/.ssh/id_rsa-cert type -1
+
+debug1: identity file /home/nicholas/.ssh/id_ecdsa type -1
+
+debug1: identity file /home/nicholas/.ssh/id_ecdsa-cert type -1
+
+debug1: identity file /home/nicholas/.ssh/id_ecdsa_sk type -1
+
+debug1: identity file /home/nicholas/.ssh/id_ecdsa_sk-cert type -1
+
+debug1: identity file /home/nicholas/.ssh/id_ed25519 type -1
+
+debug1: identity file /home/nicholas/.ssh/id_ed25519-cert type -1
+
+debug1: identity file /home/nicholas/.ssh/id_ed25519_sk type -1
+
+debug1: identity file /home/nicholas/.ssh/id_ed25519_sk-cert type -1
+
+debug1: identity file /home/nicholas/.ssh/id_xmss type -1
+
+debug1: identity file /home/nicholas/.ssh/id_xmss-cert type -1
+
+debug1: identity file /home/nicholas/.ssh/id_dsa type -1
+
+debug1: identity file /home/nicholas/.ssh/id_dsa-cert type -1
+
+debug1: Local version string SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.4
+
+debug1: Remote protocol version 2.0, remote software version OpenSSH_8.9p1 Ubuntu-3ubuntu0.4
+
+debug1: compat_banner: match: OpenSSH_8.9p1 Ubuntu-3ubuntu0.4 pat OpenSSH* compat 0x04000000
+
+debug1: Authenticating to 54.151.14.242:22 as 'ubuntu'
+
+debug1: load_hostkeys: fopen /home/nicholas/.ssh/known_hosts2: No such file or directory
+
+debug1: load_hostkeys: fopen /etc/ssh/ssh_known_hosts: No such file or directory
+
+debug1: load_hostkeys: fopen /etc/ssh/ssh_known_hosts2: No such file or directory
+
+debug1: SSH2_MSG_KEXINIT sent
+
+debug1: SSH2_MSG_KEXINIT received
+
+debug1: kex: algorithm: curve25519-sha256
+
+debug1: kex: host key algorithm: ssh-ed25519
+
+debug1: kex: server->client cipher: chacha20-poly1305@openssh.com MAC: <implicit> compression: none
+
+debug1: kex: client->server cipher: chacha20-poly1305@openssh.com MAC: <implicit> compression: none
+
+debug1: expecting SSH2_MSG_KEX_ECDH_REPLY
+
+debug1: SSH2_MSG_KEX_ECDH_REPLY received
+
+debug1: Server host key: ssh-ed25519 SHA256:PV36keds4Eic4SREJ4soA9KPkOD9MddWGdtm5dze9+E
+
+debug1: load_hostkeys: fopen /home/nicholas/.ssh/known_hosts2: No such file or directory
+
+debug1: load_hostkeys: fopen /etc/ssh/ssh_known_hosts: No such file or directory
+
+debug1: load_hostkeys: fopen /etc/ssh/ssh_known_hosts2: No such file or directory
+
+debug1: Host '54.151.14.242' is known and matches the ED25519 host key.
+
+debug1: Found key in /home/nicholas/.ssh/known_hosts:61
+
+debug1: rekey out after 134217728 blocks
+
+debug1: SSH2_MSG_NEWKEYS sent
+
+debug1: expecting SSH2_MSG_NEWKEYS
+
+debug1: SSH2_MSG_NEWKEYS received
+
+debug1: rekey in after 134217728 blocks
+
+debug1: Will attempt key: /home/nicholas/.ssh/id_rsa RSA SHA256:2XSKP9/MlMM15LSRBCXKBhYQlxZmZHV27lmJOiEqXvk
+
+debug1: Will attempt key: /home/nicholas/.ssh/id_ecdsa 
+
+debug1: Will attempt key: /home/nicholas/.ssh/id_ecdsa_sk 
+
+debug1: Will attempt key: /home/nicholas/.ssh/id_ed25519 
+
+debug1: Will attempt key: /home/nicholas/.ssh/id_ed25519_sk 
+
+debug1: Will attempt key: /home/nicholas/.ssh/id_xmss 
+
+debug1: Will attempt key: /home/nicholas/.ssh/id_dsa 
+
+debug1: SSH2_MSG_EXT_INFO received
+
+debug1: kex_input_ext_info: server-sig-algs=<ssh-ed25519,sk-ssh-ed25519@openssh.com,ssh-rsa,rsa-sha2-256,rsa-sha2-512,ssh-dss,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ecdsa-sha2-nistp256@openssh.com,webauthn-sk-ecdsa-sha2-nistp256@openssh.com>
+
+debug1: kex_input_ext_info: publickey-hostbound@openssh.com=<0>
+
+debug1: SSH2_MSG_SERVICE_ACCEPT received
+
+debug1: Authentications that can continue: publickey
+
+debug1: Next authentication method: publickey
+
+debug1: Offering public key: /home/nicholas/.ssh/id_rsa RSA SHA256:2XSKP9/MlMM15LSRBCXKBhYQlxZmZHV27lmJOiEqXvk
+
+debug1: Server accepts key: /home/nicholas/.ssh/id_rsa RSA SHA256:2XSKP9/MlMM15LSRBCXKBhYQlxZmZHV27lmJOiEqXvk
+
+Authenticated to 54.151.14.242 ([54.151.14.242]:22) using "publickey".
+
+debug1: channel 0: new [client-session]
+
+debug1: Requesting no-more-sessions@openssh.com
+
+debug1: Entering interactive session.
+
+debug1: pledge: filesystem
+
+debug1: client_input_global_request: rtype hostkeys-00@openssh.com want_reply 0
+
+debug1: client_input_hostkeys: searching /home/nicholas/.ssh/known_hosts for 54.151.14.242 / (none)
+
+debug1: client_input_hostkeys: searching /home/nicholas/.ssh/known_hosts2 for 54.151.14.242 / (none)
+
+debug1: client_input_hostkeys: hostkeys file /home/nicholas/.ssh/known_hosts2 does not exist
+
+debug1: client_input_hostkeys: host key found matching a different name/address, skipping UserKnownHostsFile update
+
+debug1: Remote: /home/ubuntu/.ssh/authorized_keys:2: key options: agent-forwarding port-forwarding pty user-rc x11-forwarding
+
+debug1: Remote: /home/ubuntu/.ssh/authorized_keys:2: key options: agent-forwarding port-forwarding pty user-rc x11-forwarding
+
+debug1: Sending environment.
+
+debug1: channel 0: setting env LC_ADDRESS = "en_US.UTF-8"
+
+debug1: channel 0: setting env LC_NAME = "en_US.UTF-8"
+
+debug1: channel 0: setting env LC_MONETARY = "en_US.UTF-8"
+
+debug1: channel 0: setting env LANG = "en_US.UTF-8"
+
+debug1: channel 0: setting env LC_PAPER = "en_US.UTF-8"
+
+debug1: channel 0: setting env LC_IDENTIFICATION = "en_US.UTF-8"
+
+debug1: channel 0: setting env LC_TELEPHONE = "en_US.UTF-8"
+
+debug1: channel 0: setting env LC_MEASUREMENT = "en_US.UTF-8"
+
+debug1: channel 0: setting env LC_TIME = "en_US.UTF-8"
+
+debug1: channel 0: setting env LC_NUMERIC = "en_US.UTF-8"
+
+debug1: Sending command: scp -v -r -t /home/ubuntu/movedir
+
+scp: debug1: fd 3 clearing O_NONBLOCK
+
+Entering directory: D0775 0 move
+
+Sink: D0775 0 move
+
+scp: debug1: fd 5 clearing O_NONBLOCK
+
+Sending file modes: C0664 0 movefile1.txt
+
+Sink: C0664 0 movefile1.txt
+
+scp: debug1: fd 0 clearing O_NONBLOCK
+
+scp: debug1: fd 6 clearing O_NONBLOCK
+
+scp: debug1: fd 5 clearing O_NONBLOCK
+
+Sending file modes: C0664 0 movefile2.txt
+
+Sink: C0664 0 movefile2.txt
+
+scp: debug1: fd 0 clearing O_NONBLOCK
+
+scp: debug1: fd 6 clearing O_NONBLOCK
+
+scp: debug1: fd 5 clearing O_NONBLOCK
+
+Sending file modes: C0664 0 movefile3.txt
+
+Sink: C0664 0 movefile3.txt
+
+scp: debug1: fd 0 clearing O_NONBLOCK
+
+scp: debug1: fd 6 clearing O_NONBLOCK
+
+Sink: E
+
+debug1: client_input_channel_req: channel 0 rtype exit-status reply 0
+
+debug1: channel 0: free: client-session, nchannels 1
+
+Transferred: sent 4504, received 3868 bytes, in 0.7 seconds
+
+Bytes per second: sent 6092.8, received 5232.5
+
+debug1: Exit status 0
+
