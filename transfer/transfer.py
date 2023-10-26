@@ -5,6 +5,7 @@ import botocore
 import boto3
 import boto3.s3.transfer as s3transfer
 from tqdm import tqdm
+import time
 
 #--------------------------------------------------
 # Get the path to the pyaws folder. This allows the bash scripts to be called
@@ -163,6 +164,7 @@ def scp(
                     current_file =line.split(" ")[-1]
                     file_size =float(line.split(" ")[-2])
                     print(f"{count} / {num_files} : {current_file}", end="")
+                    time.sleep(1)
                     print('\033[1A', end='\x1b[2K')
                     count += 1
 
