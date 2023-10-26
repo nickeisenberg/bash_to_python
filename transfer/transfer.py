@@ -24,15 +24,17 @@ PATH_TO_PYAWS = os.path.join(
 #--------------------------------------------------
 
 def scp(
-    source_path: str, 
-    save_path: str,
-    user: str,
-    ip: str,
-    port: str="22", 
-    pem: Optional[str]=None,
-    generate_logfile_to: Optional[str]=None,
-    path_to_bash: Optional[str]=None
-    ):
+        source_path: str, 
+        save_path: str,
+        user: str,
+        ip: str,
+        port: str="22", 
+        progress_bar: Optional[tqdm]=None,
+        measure_by: Optional[str]="count",
+        pem: Optional[str]=None,
+        generate_logfile_to: Optional[str]=None,
+        path_to_bash: Optional[str]=None
+        ):
 
     """
     A call to `scp`.
@@ -54,6 +56,13 @@ def scp(
 
     ip: str,
         The ip address of the remote machine
+
+    progress_bar: Optional[tqdm]=None
+        A tqdm progress bar
+
+    measure_by : Optional[str]=None, default="count"
+        The metric used to measure the speed with the tqdm bar. The current 
+        options are "count", "KiB", and "MiB".
 
     pem: Optional[str]=None
         The pem key to access the remote machine
@@ -103,6 +112,7 @@ def scp(
         path_to_bash = os.path.join(
             PATH_TO_PYAWS, 'transfer', 'scripts', 'scp.sh'
         )
+
     
     if pem is not None:
         command = [
@@ -146,12 +156,23 @@ def scp(
         ) as p:
 
             count = 1
+            current_file = ""
+            file_size = 0.
             for line in p.stderr:
                 if line.startswith("Sending"):
-                    f =line.split(" ")[-1]
-                    print(f"{count} / {num_files} : {f}", end="")
+                    current_file =line.split(" ")[-1]
+                    file_size =float(line.split(" ")[-2])
+                    print(f"{count} / {num_files} : {current_file}", end="")
                     print('\033[1A', end='\x1b[2K')
                     count += 1
+
+                if progress_bar is not None:
+                    if measure_by == "count":
+                        progress_bar.update(1)
+                    elif measure_by == "KiB":
+                        progress_bar.update(file_size / 1000)
+                    elif measure_by == "MiB":
+                        progress_bar.update(file_size / 1000000)
 
                 if generate_logfile_to is not None:
                     with open(generate_logfile_to, "a") as log:
