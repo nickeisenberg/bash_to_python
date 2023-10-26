@@ -37,6 +37,5 @@ with tqdm(
         user=user,
         ip=ip,
         generate_logfile_to=logfile,
-        progress_bar=pbar
-    
+        progress_bar=pbar,
     )
