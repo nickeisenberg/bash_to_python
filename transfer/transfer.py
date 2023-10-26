@@ -42,9 +42,6 @@ def scp(
 
     Parameters
     ----------
-    port: str, default = 22
-        The port you want to scp with
-
     source_path: str
         Either a path to a file or a folder contating files. If `source_path` 
         is a folder, than all files in the folder will be transfered.
@@ -57,6 +54,9 @@ def scp(
 
     ip: str,
         The ip address of the remote machine
+
+    port: str, default = 22
+        The port you want to scp with
 
     progress_bar: Optional[tqdm]=None
         A tqdm progress bar
