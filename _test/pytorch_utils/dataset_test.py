@@ -1,6 +1,7 @@
 from pyaws.pytorch_utils import TreeImageFolder
 import os
 
+
 HOME = os.environ['HOME']
 
 # this is buggy becuase of how I am taking care of depth. need to fix
@@ -11,7 +12,6 @@ root = "data"
 
 dataset = TreeImageFolder(root=root, depth_limit=1)
 
-dataset.depth_corrector
 
 for inp in dataset.dataset:
     print(inp)
