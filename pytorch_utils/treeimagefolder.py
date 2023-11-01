@@ -34,7 +34,8 @@ class TreeImageFolder:
             ]
 
             if not innerdirs:
-                if target_dir not in self.classes:
+                # if target_dir not in self.classes:
+                if target_dir not in self.fullpaths:
                     # self.classes.append(target_dir)
                     self.fullpaths.append(target_dir)
                     self.basepaths.append(base_dir)
