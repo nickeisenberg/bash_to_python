@@ -102,5 +102,3 @@ class TreeImageFolder(Dataset):
                 break
     
         return len(parts)
-
-
