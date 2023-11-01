@@ -1,10 +1,12 @@
 import os
+from PIL import Image
+from torch.utils.data import Dataset
 
 #--------------------------------------------------
 # Try to create a data loader that will recursively parse a data folder 
 #--------------------------------------------------
 
-class TreeImageFolder:
+class TreeImageFolder(Dataset):
 
     def __init__(self, root, depth_limit):
         # self.classes = []
@@ -14,6 +16,17 @@ class TreeImageFolder:
         self.depth_corrector = self.split_path(root)
         self.get_all_classes(root, os.path.basename(root), depth_limit)
         self.make_dataset(depth_limit)
+
+
+    def __len__(self):
+        return len(self.dataset)
+
+
+    def __getitem__(self,idx):
+        img_path = self.dataset[idx][0]
+        img = Image.open(img_path)
+        img_class = self.dataset[idx][1]
+        return img, img_class
 
 
     def get_all_classes(self, root, baseroot, depth_limit=1):
