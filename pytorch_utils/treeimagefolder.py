@@ -9,9 +9,9 @@ class TreeImageFolder:
     def __init__(self, root, depth_limit):
         self.classes = []
         self.dataset = []
+        self.depth_corrector = self.split_path(root) - 1
         self.get_all_classes(root, depth_limit)
         self.make_dataset(depth_limit)
-        self.depth_corrector = self.split_path(root) - 1
 
 
     def get_all_classes(self, root, depth_limit=1):
