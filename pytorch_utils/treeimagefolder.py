@@ -55,10 +55,10 @@ class TreeImageFolder:
     def make_dataset(self, depth_limit):
 
         # for classpath in self.classes:
-        for classpath in self.basepaths:
-            classname = "-".join(classpath.split("/")[-depth_limit:])
+        for fp, bp in zip(self.fullpaths, self.basepaths):
+            classname = "-".join(bp.split("/")[-depth_limit:])
 
-            for dirpath, dirname, fns in os.walk(classpath):
+            for dirpath, dirname, fns in os.walk(fp):
 
                 for fn in fns:
 
