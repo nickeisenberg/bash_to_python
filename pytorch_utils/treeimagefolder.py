@@ -7,14 +7,16 @@ import os
 class TreeImageFolder:
 
     def __init__(self, root, depth_limit):
-        self.classes = []
+        # self.classes = []
         self.dataset = []
+        self.fullpaths = []
+        self.basepaths = []
         self.depth_corrector = self.split_path(root)
-        self.get_all_classes(root, depth_limit)
+        self.get_all_classes(root, os.path.basename(root), depth_limit)
         self.make_dataset(depth_limit)
 
 
-    def get_all_classes(self, root, depth_limit=1):
+    def get_all_classes(self, root, baseroot, depth_limit=1):
     
         dirs = [
             d.name for d in os.scandir(root) 
@@ -24,6 +26,7 @@ class TreeImageFolder:
         for dir in dirs:
 
             target_dir = os.path.join(root, dir)
+            base_dir = os.path.join(baseroot, dir)
 
             innerdirs = [
                 d.name for d in os.scandir(target_dir) 
@@ -32,22 +35,27 @@ class TreeImageFolder:
 
             if not innerdirs:
                 if target_dir not in self.classes:
-                    self.classes.append(target_dir)
+                    # self.classes.append(target_dir)
+                    self.fullpaths.append(target_dir)
+                    self.basepaths.append(base_dir)
             else:
                 # curdepth = len(target_dir.split('/')) - 1
                 curdepth = self.split_path(target_dir) - self.depth_corrector
                 if curdepth == depth_limit:
-                    self.classes.append(target_dir)
+                    # self.classes.append(target_dir)
+                    self.fullpaths.append(target_dir)
+                    self.basepaths.append(base_dir)
                     continue
                 else:
-                    self.get_all_classes(target_dir, depth_limit=depth_limit)
+                    self.get_all_classes(target_dir, base_dir, depth_limit=depth_limit)
     
         return None
 
 
     def make_dataset(self, depth_limit):
 
-        for classpath in self.classes:
+        # for classpath in self.classes:
+        for classpath in self.basepaths:
             classname = "-".join(classpath.split("/")[-depth_limit:])
 
             for dirpath, dirname, fns in os.walk(classpath):

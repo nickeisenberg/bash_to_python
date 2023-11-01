@@ -10,8 +10,7 @@ root = f"{HOME}/GitRepos/pyaws_project/pyaws/_test/pytorch_utils/data"
 # this will work
 root = "data"
 
-dataset = TreeImageFolder(root=root, depth_limit=1)
-
+dataset = TreeImageFolder(root=root, depth_limit=4)
 
 for inp in dataset.dataset:
     print(inp)
