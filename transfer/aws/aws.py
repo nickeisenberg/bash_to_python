@@ -17,6 +17,7 @@ PATH_TO_PYAWS = os.path.join(
     p.stdout.strip(),
     "pyaws"
 )
+AWS_SCRIPT_PATH = os.path.join(PATH_TO_PYAWS, 'transfer', 'aws', 'scripts')
 
 def cp_recursive(
     source_dir: str, 
@@ -74,7 +75,7 @@ def cp_recursive(
 
     if path_to_bash is None:
         path_to_bash = os.path.join(
-            PATH_TO_PYAWS, 'scripts', 'awssync.sh'
+            AWS_SCRIPT_PATH, 'awssync.sh'
         )
 
     try:
@@ -183,7 +184,7 @@ def sync(
     
     if path_to_bash is None:
         path_to_bash = os.path.join(
-            PATH_TO_PYAWS, 'scripts', 'awssync.sh'
+            AWS_SCRIPT_PATH, 'awssync.sh'
         )
 
     try:

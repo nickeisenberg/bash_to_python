@@ -21,6 +21,7 @@ PATH_TO_PYAWS = os.path.join(
     p.stdout.strip(),
     "pyaws"
 )
+TRANSFER_SCRIPT_PATH = os.path.join(PATH_TO_PYAWS, 'transfer', 'scripts')
 
 #--------------------------------------------------
 
@@ -111,7 +112,7 @@ def scp(
 
     if path_to_bash is None:
         path_to_bash = os.path.join(
-            PATH_TO_PYAWS, 'transfer', 'scripts', 'scp.sh'
+            TRANSFER_SCRIPT_PATH, 'scp.sh'
         )
 
     

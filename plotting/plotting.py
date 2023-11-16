@@ -15,6 +15,7 @@ PATH_TO_PYAWS = os.path.join(
     p.stdout.strip(),
     "pyaws"
 )
+PLOTTING_SCRIPT_PATH = os.path.join(PATH_TO_PYAWS, 'plotting', 'scripts')
 
 def start_trigger(
         path_to_image_folder: str, 
@@ -45,7 +46,7 @@ def start_trigger(
 
     if path_to_bash is None:
         path_to_bash = os.path.join(
-            PATH_TO_PYAWS, 'plotting', 'scripts', 'trigger.sh'
+            PLOTTING_SCRIPT_PATH, 'trigger.sh'
         )
 
     command = [
