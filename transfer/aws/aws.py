@@ -13,11 +13,11 @@ p = subprocess.run(
     capture_output=True,
     text=True
 )
-PATH_TO_PYAWS = os.path.join(
+PATH_TO_SSHTOOLS = os.path.join(
     p.stdout.strip(),
-    "pyaws"
+    "sshtools"
 )
-AWS_SCRIPT_PATH = os.path.join(PATH_TO_PYAWS, 'transfer', 'aws', 'scripts')
+SSHTOOLS_SCRIPT_PATH = os.path.join(PATH_TO_SSHTOOLS, 'transfer', 'aws', 'scripts')
 
 def cp_recursive(
     source_dir: str, 
@@ -29,8 +29,8 @@ def cp_recursive(
 
     """
     A python function that calls a bash function that applies 
-    aws s3 cp --recurisve on a whole local directory.
 
+    aws s3 cp --recurisve on a whole local directoryLS
     Parameters
     ----------
     source_dir: str
@@ -75,7 +75,7 @@ def cp_recursive(
 
     if path_to_bash is None:
         path_to_bash = os.path.join(
-            AWS_SCRIPT_PATH, 'awssync.sh'
+            SSHTOOLS_SCRIPT_PATH, 'awssync.sh'
         )
 
     try:
@@ -184,7 +184,7 @@ def sync(
     
     if path_to_bash is None:
         path_to_bash = os.path.join(
-            AWS_SCRIPT_PATH, 'awssync.sh'
+            SSHTOOLS_SCRIPT_PATH, 'awssync.sh'
         )
 
     try:

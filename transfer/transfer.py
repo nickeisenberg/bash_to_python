@@ -17,11 +17,11 @@ p = subprocess.run(
     capture_output=True,
     text=True
 )
-PATH_TO_PYAWS = os.path.join(
+PATH_TO_SSHTOOLS = os.path.join(
     p.stdout.strip(),
-    "pyaws"
+    "sshtools"
 )
-TRANSFER_SCRIPT_PATH = os.path.join(PATH_TO_PYAWS, 'transfer', 'scripts')
+TRANSFER_SCRIPT_PATH = os.path.join(PATH_TO_SSHTOOLS, 'transfer', 'scripts')
 
 #--------------------------------------------------
 

@@ -11,11 +11,11 @@ p = subprocess.run(
     capture_output=True,
     text=True
 )
-PATH_TO_PYAWS = os.path.join(
+PATH_TO_SSHTOOLS = os.path.join(
     p.stdout.strip(),
-    "pyaws"
+    "sshtools"
 )
-PLOTTING_SCRIPT_PATH = os.path.join(PATH_TO_PYAWS, 'plotting', 'scripts')
+PLOTTING_SCRIPT_PATH = os.path.join(PATH_TO_SSHTOOLS, 'plotting', 'scripts')
 
 def start_trigger(
         path_to_image_folder: str, 
