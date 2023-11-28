@@ -2,7 +2,7 @@
 scp prints to stderr not stdout. wtf.
 """
 
-from pyaws.transfer import scp
+from sshtools.transfer import scp
 
 port = "22"
 source_path = "/home/nicholas/GitRepos/pyaws/_test/scp/move"

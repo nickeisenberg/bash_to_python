@@ -3,7 +3,7 @@
 #--------------------------------------------------
 
 import matplotlib.pyplot as plt
-from pyaws.plotting import Plotter
+from sshtools.plotting import Plotter
 
 port = "2222"
 save_path = "/home/nicholas/Tmp/png_trigger_folder"

@@ -1,6 +1,6 @@
 import json
 import boto3
-from pyaws.transfer import fast_upload
+from sshtools.transfer.aws import fast_upload
 from tqdm import tqdm
 import os
 

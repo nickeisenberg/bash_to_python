@@ -4,7 +4,7 @@ Use a REPL to do so.
 """
 
 import matplotlib.pyplot as plt
-from pyaws.plotting import Plotter
+from sshtools.plotting import Plotter
 
 port = "<the port that you local network allows for incoming ssh>"
 save_path = "/path/to/folder/that/trigger/is/active/in"

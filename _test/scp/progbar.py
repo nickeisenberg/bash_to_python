@@ -3,7 +3,7 @@ tqdm integration with pyaws.transfer.scp
 """
 
 from tqdm import tqdm
-from pyaws.transfer import scp
+from sshtools.transfer import scp
 import os
 
 

@@ -1,5 +1,5 @@
 from tqdm import tqdm
-import pyaws
+from sshtools.transfer.aws import fast_upload, fast_download, sync, cp_recursive
 import os
 import time
 import os
@@ -56,11 +56,11 @@ save_dir = "s3://speed-demo-bucket/imgs"
 profile = "nick"
 
 log_file = "/home/nicholas/Tmp/update.log"
-pyaws.sync(
+sync(
     source_dir, save_dir, profile, generate_logfile_to=log_file
 )
 
-pyaws.cp_recursive(
+cp_recursive(
     source_dir, save_dir, profile
 )
 
@@ -79,7 +79,7 @@ print(totalsize / 1e6)
 with tqdm(
     desc='upload', ncols=60, total=totalsize, unit='B', unit_scale=1
 ) as pbar:
-    pyaws.fast_upload(
+    fast_upload(
         session, 
         bucketname, 
         s3dir, 
@@ -110,7 +110,7 @@ len(bucket_objects)
 with tqdm(
     desc='download', ncols=60, total=totalsize, unit='B', unit_scale=1
 ) as pbar:
-    pyaws.fast_download(
+    fast_download(
         session, 
         bucketname, 
         bucket_objects, 
