@@ -6,6 +6,7 @@ import boto3
 import boto3.s3.transfer as s3transfer
 from tqdm import tqdm
 import time
+from .utils import list_files_recursively
 
 #--------------------------------------------------
 # Get the path to the pyaws folder. This allows the bash scripts to be called
@@ -108,13 +109,13 @@ def scp(
     
     num_files = 1
     if os.path.isdir(source_path):
-        num_files = len(os.listdir(source_path))
+        all_files = list_files_recursively(source_path)
+        num_files = len(all_files)
 
     if path_to_bash is None:
         path_to_bash = os.path.join(
             TRANSFER_SCRIPT_PATH, 'scp.sh'
         )
-
     
     if pem is not None:
         command = [
@@ -164,11 +165,13 @@ def scp(
                 if line.startswith("Sending"):
                     current_file =line.split(" ")[-1]
                     file_size =float(line.split(" ")[-2])
-                    print(f"{count} / {num_files} : {current_file}", end="")
-                    print('\033[1A', end='\x1b[2K')
-                    count += 1
 
-                    if progress_bar is not None:
+                    if not progress_bar:
+                        print(f"{count} / {num_files} : {current_file}", end="")
+                        print('\033[1A', end='\x1b[2K')
+                        count += 1
+
+                    else:
                         if measure_by == "count":
                             progress_bar.update(1)
                         elif measure_by == "KiB":

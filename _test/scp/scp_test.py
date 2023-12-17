@@ -2,14 +2,17 @@
 scp prints to stderr not stdout. wtf.
 """
 
-from sshtools.transfer import scp
+from transfer import scp
+from transfer.utils import list_files_recursively
+from tqdm import tqdm
+import os
 
 port = "22"
-source_path = "/home/nicholas/GitRepos/pyaws/_test/scp/move"
-save_path = "/home/ubuntu/movedir"
+source_path = "/home/nicholas/GitRepos/sshtools_project/sshtools/_test/scp/move"
+save_path = "/home/ubuntu/Tmp"
 user = "ubuntu"
-ip = "54.151.14.242"
-logfile = "/home/nicholas/GitRepos/pyaws/_test/scp/logfiles/logfile.log"
+ip = "184.72.19.219"
+
 
 scp(
     port=port,
@@ -17,5 +20,19 @@ scp(
     save_path=save_path,
     user=user,
     ip=ip,
-    generate_logfile_to=logfile,
 )
+
+num_files = len(list_files_recursively(source_path))
+
+with tqdm(
+    desc='upload', ncols=60, total=num_files, unit='files', unit_scale=1
+) as pbar:
+    scp(
+        port=port,
+        source_path=source_path,
+        save_path=save_path,
+        user=user,
+        ip=ip,
+        progress_bar=pbar,
+        measure_by="count"
+    )
