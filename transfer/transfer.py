@@ -1,11 +1,7 @@
 import subprocess
 import os
 from typing import Optional
-import botocore
-import boto3
-import boto3.s3.transfer as s3transfer
 from tqdm import tqdm
-import time
 from .utils import list_files_recursively
 
 #--------------------------------------------------
@@ -32,7 +28,7 @@ def scp(
         user: str,
         ip: str,
         port: str="22", 
-        progress_bar: Optional[tqdm]=None,
+        with_tqdm: bool = True,
         measure_by: Optional[str]="count",
         pem: Optional[str]=None,
         generate_logfile_to: Optional[str]=None,
@@ -157,6 +153,12 @@ def scp(
             bufsize=1,
             universal_newlines=True
         ) as p:
+            
+            if with_tqdm:
+                progress_bar = tqdm(
+                    desc='upload', ncols=60, total=num_files, 
+                    unit='files', unit_scale=1, leave=True
+                )
 
             count = 1
             current_file = ""
@@ -166,7 +168,7 @@ def scp(
                     current_file =line.split(" ")[-1]
                     file_size =float(line.split(" ")[-2])
 
-                    if not progress_bar:
+                    if not with_tqdm:
                         print(f"{count} / {num_files} : {current_file}", end="")
                         print('\033[1A', end='\x1b[2K')
                         count += 1
