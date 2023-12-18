@@ -1,6 +1,6 @@
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
-from ..transfer import scp
+from ..transfer import SecureCopyProtocol
 import subprocess
 from typing import Optional
 import os
@@ -113,15 +113,15 @@ class Plotter:
                 return None
         else:
             figure.savefig(f"./{name}.png")
+        
 
-        scp(
+        scp = SecureCopyProtocol(
+            self.user, self.ip, self.port, self.pem, self.path_to_bash
+        )
+
+        scp.scp(
             source_path=f"./{name}.png",
-            save_path=self.save_path,
-            user=self.user,
-            ip=self.ip,
-            port=self.port,
-            pem=self.pem,
-            path_to_bash=self.path_to_bash
+            save_path=self.save_path
         )
 
         os.remove(f"./{name}.png")

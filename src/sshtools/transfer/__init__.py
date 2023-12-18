@@ -1,1 +1,1 @@
-from .transfer import scp
+from .transfer import SecureCopyProtocol
