@@ -5,22 +5,7 @@ import time
 import os
 import boto3
 import json
-from torchvision import transforms
 
-
-#--------------------------------------------------
-# Example image
-#--------------------------------------------------
-rootdir = "/home/nicholas/Datasets/CelebA/img_align_celeba"
-transform = transforms.Compose(
-    [
-        transforms.ToTensor()
-    ]
-)
-img_names = os.listdir(rootdir)
-img = Image.open(os.path.join(rootdir, img_names[0]))
-img_t = transform(img)
-#--------------------------------------------------
 
 #--------------------------------------------------
 # get the access and secret keys to the aws account
@@ -41,7 +26,7 @@ session = boto3.Session(
 # delete and remake the folder for testing
 #--------------------------------------------------
 s3_res = session.resource('s3')
-bucket = s3_res.Bucket('speed-demo-bucket')
+bucket = s3_res.Bucket('sshtools-demo-bucket')
 _ = bucket.objects.filter(Prefix="imgs/").delete()
 bucket.put_object(Key="imgs/")
 #--------------------------------------------------
@@ -50,9 +35,9 @@ bucket.put_object(Key="imgs/")
 #-------------------------------------------------- 
 # copy_dir testing.
 #-------------------------------------------------- 
-source_dir = "/home/nicholas/Datasets/CelebA/batched"
+source_dir = "/home/nicholas/Datasets/celebA/img64_100"
 num_b = sum([os.stat(os.path.join(source_dir, f)).st_size for f in os.listdir(source_dir)])
-save_dir = "s3://speed-demo-bucket/imgs"
+save_dir = "s3://sshtools-demo-bucket/imgs"
 profile = "nick"
 
 log_file = "/home/nicholas/Tmp/update.log"
