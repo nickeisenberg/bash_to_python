@@ -26,12 +26,6 @@ class SecureCopyProtocol:
     pem: Optional[str]=None
         The pem key to access the remote machine
 
-    path_to_bash: Optional[str]=None
-        The path to the underlying bash script being called. If None then it 
-        assumes that the `pyaws` module is located where python looks for the libraries,
-        ie in the same folder that `pip show pip | awk '/Location/ {print $2}'`.
-
-
 
     """
     def __init__(self, user, ip, port, pem=None):
@@ -42,19 +36,9 @@ class SecureCopyProtocol:
         
         self._system = system()
 
-        if self._system == "Linux":
-            self.path_to_bash = str(
-                pkg.path('sshtools.transfer.scripts.linux', 'scp.sh')
-            )
-        elif self._system == "Darwin":
-            self.path_to_bash = str(
-                pkg.path('sshtools.transfer.scripts.darwin', 'scp.sh')
-            )
-        else:
-            raise Exception("Operating system in not supported")
 
 
-    def scp(self,
+    def send(self,
             source_path: str, 
             save_path: str,
             with_tqdm: bool = True,
@@ -102,6 +86,17 @@ class SecureCopyProtocol:
         >>> )
         """
 
+        if self._system == "Linux":
+            path_to_bash = str(
+                pkg.path('sshtools.transfer.scripts.linux', 'send.sh')
+            )
+        elif self._system == "Darwin":
+            path_to_bash = str(
+                pkg.path('sshtools.transfer.scripts.darwin', 'send.sh')
+            )
+        else:
+            raise Exception("Operating system in not supported")
+
         num_files = 1
         if os.path.isdir(source_path):
             all_files = list_files_recursively(source_path)
@@ -109,7 +104,7 @@ class SecureCopyProtocol:
         
         if self.pem is not None:
             command = [
-                self.path_to_bash, 
+                path_to_bash, 
                 "--port", 
                 self.port, 
                 "--source-path", 
@@ -125,7 +120,7 @@ class SecureCopyProtocol:
             ]
         else:
             command = [
-                self.path_to_bash, 
+                path_to_bash, 
                 "--port", 
                 self.port, 
                 "--source-path", 
@@ -139,7 +134,6 @@ class SecureCopyProtocol:
             ]
 
         try:
-            # Call the Bash script with specified parameters
             with subprocess.Popen(
                 command,
                 stdout=subprocess.PIPE,
@@ -156,8 +150,140 @@ class SecureCopyProtocol:
                     )
 
                 count = 1
-                # current_file = ""
-                # file_size = 0.
+
+                if self._system == 'Darwin':
+                    if with_tqdm is False:
+                        raise Exception("At the momemnt, Darwin OS requires tqdm")
+
+                    self._darwin(p.stdout, progress_bar, generate_logfile_to,
+                                 count, num_files, measure_by, with_tqdm)
+
+                elif self._system == "Linux":
+                    self._linux(p.stderr, progress_bar, generate_logfile_to,
+                                 count, num_files, measure_by, with_tqdm)
+
+                print("All files successfully transfered")
+
+        except subprocess.CalledProcessError as e:
+            print(f"Error calling the Bash script: {e}")
+
+        except FileNotFoundError as e:
+            print(f"Bash script not found: {e}")
+
+        return None
+
+    def receive(self,
+            source_path: str, 
+            save_path: str,
+            with_tqdm: bool = True,
+            measure_by: Optional[str]="count",
+            generate_logfile_to: Optional[str]=None):
+        """
+        Parameters
+        ----------
+        source_path: str
+            Either a path to a file or a folder contating files. If `source_path` 
+            is a folder, than all files in the folder will be transfered.
+
+        save_path: str
+            The location on the remote host where you want the files moved to.
+
+
+        progress_bar: Optional[tqdm]=None
+            A tqdm progress bar
+
+        measure_by : Optional[str]=None, default="count"
+            The metric used to measure the speed with the tqdm bar. The current 
+            options are "count", "KiB", and "MiB".
+
+        generate_logfile_to: Optional[str]=None
+            The path you would like a complete log file of the output of `scp`.
+
+        Example
+        -------
+        >>> from sshtools.transfer import SecureCopyProtocol
+        >>> 
+        >>> user = "remote_user"
+        >>> ip = "50.1.1.1"
+        >>> port = "22"
+        >>> pem = "/path/to/pem/credentials.pem"
+        >>> scp = SecureCopyProtocol(user, ip , port, pem)
+        >>>
+        >>> source_path = "/path/to/local/folder"
+        >>> save_path = "/path/to/remote/save/destination"
+        >>> logfile = "/where/to/save/log/test.log"
+        >>> 
+        >>> scp.scp(
+        >>>     source_path, 
+        >>>     save_path, 
+        >>>     generate_logfile_to=logfile,
+        >>> )
+        """
+
+        if self._system == "Linux":
+            path_to_bash = str(
+                pkg.path('sshtools.transfer.scripts.linux', 'receive.sh')
+            )
+        elif self._system == "Darwin":
+            path_to_bash = str(
+                pkg.path('sshtools.transfer.scripts.darwin', 'receive.sh')
+            )
+        else:
+            raise Exception("Operating system in not supported")
+
+        num_files = 1
+        if os.path.isdir(source_path):
+            all_files = list_files_recursively(source_path)
+            num_files = len(all_files)
+        
+        if self.pem is not None:
+            command = [
+                path_to_bash, 
+                "--port", 
+                self.port, 
+                "--source-path", 
+                source_path, 
+                "--save-path", 
+                save_path, 
+                "--user", 
+                self.user, 
+                "--ip", 
+                self.ip,
+                "--pem",
+                self.pem
+            ]
+        else:
+            command = [
+                path_to_bash, 
+                "--port", 
+                self.port, 
+                "--source-path", 
+                source_path, 
+                "--save-path", 
+                save_path, 
+                "--user", 
+                self.user, 
+                "--ip", 
+                self.ip, 
+            ]
+
+        try:
+            with subprocess.Popen(
+                command,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                bufsize=1,
+                universal_newlines=True
+            ) as p:
+                
+                progress_bar = None
+                if with_tqdm:
+                    progress_bar = tqdm(
+                        desc='upload', ncols=60, total=num_files, 
+                        unit='files', unit_scale=1, leave=True
+                    )
+
+                count = 1
 
                 if self._system == 'Darwin':
                     self._darwin(p.stdout, progress_bar, generate_logfile_to,
@@ -166,34 +292,6 @@ class SecureCopyProtocol:
                 elif self._system == "Linux":
                     self._linux(p.stderr, progress_bar, generate_logfile_to,
                                  count, num_files, measure_by, with_tqdm)
-
-                # for line in p.stderr:
-                # for line in p.stderr:
-                #     # if line.startswith("Sending"):
-                #     #     current_file =line.split(" ")[-1]
-                #     #     file_size =float(line.split(" ")[-2])
-
-                #     if "100%" in line:
-                #         s_line = line.strip().split()
-                #         current_file = s_line[0]
-                #         file_size = float(s_line[2])
-
-                #         if not with_tqdm:
-                #             print(f"{count} / {num_files} : {current_file}", end="")
-                #             print('\033[1A', end='\x1b[2K')
-                #             count += 1
-
-                #         else:
-                #             if measure_by == "count":
-                #                 progress_bar.update(1)
-                #             elif measure_by == "KiB":
-                #                 progress_bar.update(file_size / 1000)
-                #             elif measure_by == "MiB":
-                #                 progress_bar.update(file_size / 1000000)
-
-                #     if generate_logfile_to is not None:
-                #         with open(generate_logfile_to, "a") as log:
-                #             _ = log.write(line + "\n")
 
                 print("All files successfully transfered")
 
