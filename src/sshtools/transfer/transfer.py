@@ -8,8 +8,6 @@ import importlib.resources as pkg
 import re
 
 
-
-
 class SecureCopyProtocol:
     """
     A call to `scp`.
@@ -36,17 +34,24 @@ class SecureCopyProtocol:
 
 
     """
-    def __init__(self, user, ip, port, pem=None, path_to_bash=None):
+    def __init__(self, user, ip, port, pem=None):
         self.user = user
         self.ip = ip
         self.port = port
         self.pem = pem
-        if path_to_bash is None:
+        
+        self._system = system()
+
+        if self._system == "Linux":
             self.path_to_bash = str(
-                pkg.path('sshtools.transfer.scripts', 'scp.sh')
+                pkg.path('sshtools.transfer.scripts.linux', 'scp.sh')
+            )
+        elif self._system == "Darwin":
+            self.path_to_bash = str(
+                pkg.path('sshtools.transfer.scripts.darwin', 'scp.sh')
             )
         else:
-            self.path_to_bash = path_to_bash
+            raise Exception("Operating system in not supported")
 
 
     def scp(self,
@@ -143,6 +148,7 @@ class SecureCopyProtocol:
                 universal_newlines=True
             ) as p:
                 
+                progress_bar = None
                 if with_tqdm:
                     progress_bar = tqdm(
                         desc='upload', ncols=60, total=num_files, 
@@ -150,35 +156,44 @@ class SecureCopyProtocol:
                     )
 
                 count = 1
-                current_file = ""
-                file_size = 0.
+                # current_file = ""
+                # file_size = 0.
+
+                if self._system == 'Darwin':
+                    self._darwin(p.stdout, progress_bar, generate_logfile_to,
+                                 count, num_files, measure_by, with_tqdm)
+
+                elif self._system == "Linux":
+                    self._linux(p.stderr, progress_bar, generate_logfile_to,
+                                 count, num_files, measure_by, with_tqdm)
+
                 # for line in p.stderr:
-                for line in p.stdout:
-                    # if line.startswith("Sending"):
-                    #     current_file =line.split(" ")[-1]
-                    #     file_size =float(line.split(" ")[-2])
+                # for line in p.stderr:
+                #     # if line.startswith("Sending"):
+                #     #     current_file =line.split(" ")[-1]
+                #     #     file_size =float(line.split(" ")[-2])
 
-                    if "100%" in line:
-                        s_line = line.strip().split()
-                        current_file = s_line[0]
-                        file_size = float(s_line[2])
+                #     if "100%" in line:
+                #         s_line = line.strip().split()
+                #         current_file = s_line[0]
+                #         file_size = float(s_line[2])
 
-                        if not with_tqdm:
-                            print(f"{count} / {num_files} : {current_file}", end="")
-                            print('\033[1A', end='\x1b[2K')
-                            count += 1
+                #         if not with_tqdm:
+                #             print(f"{count} / {num_files} : {current_file}", end="")
+                #             print('\033[1A', end='\x1b[2K')
+                #             count += 1
 
-                        else:
-                            if measure_by == "count":
-                                progress_bar.update(1)
-                            elif measure_by == "KiB":
-                                progress_bar.update(file_size / 1000)
-                            elif measure_by == "MiB":
-                                progress_bar.update(file_size / 1000000)
+                #         else:
+                #             if measure_by == "count":
+                #                 progress_bar.update(1)
+                #             elif measure_by == "KiB":
+                #                 progress_bar.update(file_size / 1000)
+                #             elif measure_by == "MiB":
+                #                 progress_bar.update(file_size / 1000000)
 
-                    if generate_logfile_to is not None:
-                        with open(generate_logfile_to, "a") as log:
-                            _ = log.write(line + "\n")
+                #     if generate_logfile_to is not None:
+                #         with open(generate_logfile_to, "a") as log:
+                #             _ = log.write(line + "\n")
 
                 print("All files successfully transfered")
 
@@ -189,3 +204,63 @@ class SecureCopyProtocol:
             print(f"Bash script not found: {e}")
 
         return None
+    
+    @staticmethod
+    def _darwin(stdout, progress_bar, generate_logfile_to, count, 
+                num_files, measure_by, with_tqdm):
+        """
+        darwin logic
+        """
+
+        for line in stdout:
+            if "100%" in line:
+                s_line = line.strip().split()
+                current_file = s_line[0]
+                file_size = float(s_line[2])
+
+                if not with_tqdm:
+                    print(f"{count} / {num_files} : {current_file}", end="")
+                    print('\033[1A', end='\x1b[2K')
+                    count += 1
+
+                else:
+                    if measure_by == "count":
+                        progress_bar.update(1)
+                    elif measure_by == "KiB":
+                        progress_bar.update(file_size / 1000)
+                    elif measure_by == "MiB":
+                        progress_bar.update(file_size / 1000000)
+
+            if generate_logfile_to is not None:
+                with open(generate_logfile_to, "a") as log:
+                    _ = log.write(line + "\n")
+
+
+    @staticmethod
+    def _linux(stderr, progress_bar, generate_logfile_to, count, 
+                num_files, measure_by, with_tqdm):
+        """
+        linux logic
+        """
+
+        for line in stderr:
+            if line.startswith("Sending"):
+                current_file =line.split(" ")[-1]
+                file_size =float(line.split(" ")[-2])
+
+                if not with_tqdm:
+                    print(f"{count} / {num_files} : {current_file}", end="")
+                    print('\033[1A', end='\x1b[2K')
+                    count += 1
+
+                else:
+                    if measure_by == "count":
+                        progress_bar.update(1)
+                    elif measure_by == "KiB":
+                        progress_bar.update(file_size / 1000)
+                    elif measure_by == "MiB":
+                        progress_bar.update(file_size / 1000000)
+
+            if generate_logfile_to is not None:
+                with open(generate_logfile_to, "a") as log:
+                    _ = log.write(line + "\n")

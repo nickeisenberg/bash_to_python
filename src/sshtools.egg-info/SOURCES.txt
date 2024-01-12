@@ -4,7 +4,6 @@ pyproject.toml
 ./src/sshtools/plotting/scripts/trigger.sh
 ./src/sshtools/transfer/aws/scripts/awscp.sh
 ./src/sshtools/transfer/aws/scripts/awssync.sh
-./src/sshtools/transfer/scripts/scp.sh
 src/sshtools/__init__.py
 src/sshtools.egg-info/PKG-INFO
 src/sshtools.egg-info/SOURCES.txt
@@ -23,4 +22,5 @@ src/sshtools/transfer/aws/scripts/__init__.py
 src/sshtools/transfer/aws/scripts/awscp.sh
 src/sshtools/transfer/aws/scripts/awssync.sh
 src/sshtools/transfer/scripts/__init__.py
-src/sshtools/transfer/scripts/scp.sh
+src/sshtools/transfer/scripts/darwin/scp.sh
+src/sshtools/transfer/scripts/linux/scp.sh

@@ -13,3 +13,5 @@ USER="nick"
 IP="54.183.226.197"
 
 /Users/nickeisenberg/GitRepos/sshtools/src/sshtools/transfer/scripts/scp.sh --port $PORT --source-path $SOURCE_PATH --save-path $SAVE_PATH --user $USER --ip $IP
+
+/home/nicholas/GitRepos/sshtools_project/sshtools/src/sshtools/transfer/scripts/linux/scp.sh --port $PORT --source-path $SOURCE_PATH --save-path $SAVE_PATH --user $USER --ip $IP

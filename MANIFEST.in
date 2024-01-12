@@ -1,3 +1,4 @@
-include src/sshtools/transfer/scripts/*.sh
+include src/sshtools/transfer/scripts/darwin/scp.sh
+include src/sshtools/transfer/scripts/linux/scp.sh
 include src/sshtools/transfer/aws/scripts/*.sh
 include src/sshtools/plotting/scripts/*.sh
