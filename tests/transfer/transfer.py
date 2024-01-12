@@ -10,7 +10,9 @@ scp = SecureCopyProtocol(
 
 home = os.environ['HOME']
 
+# mac
 source_path = home + "/GitRepos/sshtools/tests/transfer/move"
+
 save_path = "/ebs0/nick/Tmp/sshtools_test"
 
 scp.scp(source_path, save_path, with_tqdm=False)
