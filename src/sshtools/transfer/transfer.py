@@ -45,6 +45,7 @@ class SecureCopyProtocol:
         else:
             self.path_to_bash = path_to_bash
 
+
     def scp(self,
             source_path: str, 
             save_path: str,
@@ -148,14 +149,16 @@ class SecureCopyProtocol:
                 count = 1
                 current_file = ""
                 file_size = 0.
-                for line in p.stderr:
-                    if line.startswith("Sending"):
-                        current_file =line.split(" ")[-1]
-                        file_size =float(line.split(" ")[-2])
+                # for line in p.stderr:
+                for line in p.stdout:
+                    # if line.startswith("Sending"):
+                    #     current_file =line.split(" ")[-1]
+                    #     file_size =float(line.split(" ")[-2])
 
-                    # if "100%" in line:
-                    #     current_file =line.split(" ")[0]
-                    #     file_size =float(line.split(" ")[2])
+                    if "100%" in line:
+                        s_line = line.strip().split()
+                        current_file = s_line[0]
+                        file_size = s_line[2]
 
                         if not with_tqdm:
                             print(f"{count} / {num_files} : {current_file}", end="")

@@ -60,9 +60,9 @@ _scp() {
 
     # If a PEM file is provided, use it with the -i option
     if [[ ! -z "$PEM_FILE" ]]; then
-        scp -v -r -P "$PORT" -i "$PEM_FILE" "$SOURCE_PATH" "${USER}@${IP}:${SAVE_PATH}"
+        script -q /dev/null scp -v -r -P "$PORT" -i "$PEM_FILE" "$SOURCE_PATH" "${USER}@${IP}:${SAVE_PATH}"
     else
-        scp -v -r -P "$PORT" "$SOURCE_PATH" "${USER}@${IP}:${SAVE_PATH}"
+        script -q /dev/null scp -v -r -P "$PORT" "$SOURCE_PATH" "${USER}@${IP}:${SAVE_PATH}"
     fi
 }
 
