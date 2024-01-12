@@ -18,4 +18,6 @@ source_path = home + "/GitRepos/sshtools_project/sshtools/tests/transfer/move"
 
 save_path = "/ebs0/nick/Tmp/sshtools_test"
 
-scp.scp(source_path, save_path, with_tqdm=True)
+log_path = os.path.join(home, 'file.log')
+
+scp.scp(source_path, save_path, with_tqdm=True, generate_logfile_to=log_path)
