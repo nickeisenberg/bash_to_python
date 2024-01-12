@@ -5,6 +5,9 @@ from tqdm import tqdm
 from .utils import list_files_recursively
 from platform import system
 import importlib.resources as pkg
+import re
+
+
 
 
 class SecureCopyProtocol:
@@ -158,7 +161,7 @@ class SecureCopyProtocol:
                     if "100%" in line:
                         s_line = line.strip().split()
                         current_file = s_line[0]
-                        file_size = s_line[2]
+                        file_size = float(s_line[2])
 
                         if not with_tqdm:
                             print(f"{count} / {num_files} : {current_file}", end="")
