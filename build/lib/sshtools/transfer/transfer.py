@@ -152,6 +152,10 @@ class SecureCopyProtocol:
                         current_file =line.split(" ")[-1]
                         file_size =float(line.split(" ")[-2])
 
+                    # if "100%" in line:
+                    #     current_file =line.split(" ")[0]
+                    #     file_size =float(line.split(" ")[2])
+
                         if not with_tqdm:
                             print(f"{count} / {num_files} : {current_file}", end="")
                             print('\033[1A', end='\x1b[2K')
