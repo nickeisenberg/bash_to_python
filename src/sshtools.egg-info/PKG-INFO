@@ -6,7 +6,7 @@ Author: Nick Eisenberg
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
-Requires-Python: >=3.10.12
+Requires-Python: >=3.10.0
 Description-Content-Type: text/markdown
 
 This repo uses `subprocess` to call some very common ssh related bash-scripts from python.
