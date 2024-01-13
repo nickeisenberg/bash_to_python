@@ -260,9 +260,9 @@ Sending file modes: C0664 0 movefile3.txt
 
 Sink: C0664 0 movefile3.txt
 
-scp: debug1: fd 0 clearing O_NONBLOCK
-
 scp: debug1: fd 6 clearing O_NONBLOCK
+
+scp: debug1: fd 0 clearing O_NONBLOCK
 
 Sink: E
 
@@ -270,9 +270,9 @@ debug1: client_input_channel_req: channel 0 rtype exit-status reply 0
 
 debug1: channel 0: free: client-session, nchannels 1
 
-Transferred: sent 4880, received 4748 bytes, in 1.1 seconds
+Transferred: sent 4880, received 4748 bytes, in 1.2 seconds
 
-Bytes per second: sent 4458.2, received 4337.6
+Bytes per second: sent 3962.9, received 3855.7
 
 debug1: Exit status 0
 

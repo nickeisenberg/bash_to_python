@@ -1,5 +1,4 @@
 from sshtools.transfer import SecureCopyProtocol
-from sshtools.transfer.utils import list_files_recursively
 import os
 
 scp = SecureCopyProtocol(
@@ -25,7 +24,7 @@ save_path = "/ebs0/nick/Tmp/sshtools_test"
 log_path = os.path.join(
     home,
     'GitRepos', 'sshtools_project', 'sshtools', 'tests', 'transfer', 'logs',
-    'file.log'
+    'send.log'
 )
 
 scp.send(source_path, save_path, with_tqdm=True, generate_logfile_to=log_path)
