@@ -1,13 +1,15 @@
 from sshtools.transfer import SecureCopyProtocol
 import os
 
+home = os.environ['HOME']
+pem = os.environ['USWEST1']
+
 scp = SecureCopyProtocol(
     user="nick",
-    ip="54.183.226.197",
-    port="22"
+    ip="54.215.93.24",
+    port="22",
+    pem=pem
 )
-
-home = os.environ['HOME']
 
 #--------------------------------------------------
 # Sending
@@ -19,7 +21,7 @@ source_path = home + "/GitRepos/sshtools/tests/transfer/move"
 # ubunut
 source_path = home + "/GitRepos/sshtools_project/sshtools/tests/transfer/move"
 
-save_path = "/ebs0/nick/Tmp/sshtools_test"
+save_path = "/nvme1n1/nick/Tmp/sshtools_test"
 
 log_path = os.path.join(
     home,

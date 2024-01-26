@@ -36,7 +36,8 @@ class SecureCopyProtocol:
         
         self._system = system()
 
-
+        if self._system not in ["Linux", "Darwin"]:
+            raise Exception("Operating system in not supported")
 
     def send(self,
             source_path: str, 
@@ -105,32 +106,21 @@ class SecureCopyProtocol:
         if self.pem is not None:
             command = [
                 path_to_bash, 
-                "--port", 
-                self.port, 
-                "--source-path", 
-                source_path, 
-                "--save-path", 
-                save_path, 
-                "--user", 
-                self.user, 
-                "--ip", 
-                self.ip,
-                "--pem",
-                self.pem
+                "--port", self.port, 
+                "--source-path", source_path, 
+                "--save-path", save_path, 
+                "--user", self.user, 
+                "--ip", self.ip,
+                "--pem", self.pem
             ]
         else:
             command = [
                 path_to_bash, 
-                "--port", 
-                self.port, 
-                "--source-path", 
-                source_path, 
-                "--save-path", 
-                save_path, 
-                "--user", 
-                self.user, 
-                "--ip", 
-                self.ip, 
+                "--port", self.port, 
+                "--source-path", source_path, 
+                "--save-path", save_path, 
+                "--user", self.user, 
+                "--ip", self.ip, 
             ]
 
         try:
@@ -150,19 +140,25 @@ class SecureCopyProtocol:
                     )
 
                 count = 1
-
+                
                 if self._system == 'Darwin':
                     if with_tqdm is False:
                         raise Exception("At the momemnt, Darwin OS requires tqdm")
 
-                    self._darwin(p.stdout, progress_bar, generate_logfile_to,
+                    success = self._darwin(p.stdout, progress_bar, generate_logfile_to,
                                  count, num_files, measure_by, with_tqdm)
 
                 elif self._system == "Linux":
-                    self._linux(p.stderr, progress_bar, generate_logfile_to,
+                    success = self._linux(p.stderr, progress_bar, generate_logfile_to,
                                  count, num_files, measure_by, with_tqdm)
 
-                print("All files successfully transfered")
+                else:
+                    success = "Operating system not supported"
+                    
+                if success:
+                    print(f"\n \n {success}")
+                else:
+                    print("\n \n Process successfully completed")
 
         except subprocess.CalledProcessError as e:
             print(f"Error calling the Bash script: {e}")
@@ -239,32 +235,21 @@ class SecureCopyProtocol:
         if self.pem is not None:
             command = [
                 path_to_bash, 
-                "--port", 
-                self.port, 
-                "--source-path", 
-                source_path, 
-                "--save-path", 
-                save_path, 
-                "--user", 
-                self.user, 
-                "--ip", 
-                self.ip,
-                "--pem",
-                self.pem
+                "--port", self.port, 
+                "--source-path", source_path, 
+                "--save-path", save_path, 
+                "--user", self.user, 
+                "--ip", self.ip,
+                "--pem", self.pem
             ]
         else:
             command = [
                 path_to_bash, 
-                "--port", 
-                self.port, 
-                "--source-path", 
-                source_path, 
-                "--save-path", 
-                save_path, 
-                "--user", 
-                self.user, 
-                "--ip", 
-                self.ip, 
+                "--port", self.port, 
+                "--source-path", source_path, 
+                "--save-path", save_path, 
+                "--user", self.user, 
+                "--ip", self.ip, 
             ]
 
         try:
@@ -286,6 +271,9 @@ class SecureCopyProtocol:
                 count = 1
 
                 if self._system == 'Darwin':
+                    if with_tqdm is False:
+                        raise Exception("At the momemnt, Darwin OS requires tqdm")
+
                     self._darwin(p.stdout, progress_bar, generate_logfile_to,
                                  count, num_files, measure_by, with_tqdm)
 
@@ -342,6 +330,8 @@ class SecureCopyProtocol:
         """
 
         for line in stderr:
+            if "Permission denied" in line:
+                return "Permission denied. Check the pem file."
             if line.startswith("Sending"):
                 current_file =line.split(" ")[-1]
                 file_size =float(line.split(" ")[-2])
