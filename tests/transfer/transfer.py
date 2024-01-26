@@ -35,7 +35,7 @@ scp.send(source_path, save_path, with_tqdm=True, generate_logfile_to=log_path)
 # Receiving
 #--------------------------------------------------
 
-source_path = "/nvme1n1/nick/Tmp/sshtools_test/move"
+source_path = "/nvme1n1/nick/Tmp/sshtools_test"
 
 save_path = home + "/Tmp/temp"
 
