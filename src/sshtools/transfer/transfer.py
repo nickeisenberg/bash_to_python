@@ -274,14 +274,20 @@ class SecureCopyProtocol:
                     if with_tqdm is False:
                         raise Exception("At the momemnt, Darwin OS requires tqdm")
 
-                    self._darwin(p.stdout, progress_bar, generate_logfile_to,
+                    success = self._darwin(p.stdout, progress_bar, generate_logfile_to,
                                  count, num_files, measure_by, with_tqdm)
 
                 elif self._system == "Linux":
-                    self._linux(p.stderr, progress_bar, generate_logfile_to,
+                    success = self._linux(p.stderr, progress_bar, generate_logfile_to,
                                  count, num_files, measure_by, with_tqdm)
 
-                print("All files successfully transfered")
+                else:
+                    success = "Operating system not supported"
+                
+                if success:
+                    print(f"\n \n {success}")
+                else:
+                    print("Process sucessfully completed")
 
         except subprocess.CalledProcessError as e:
             print(f"Error calling the Bash script: {e}")
