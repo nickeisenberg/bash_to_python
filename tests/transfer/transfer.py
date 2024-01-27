@@ -52,13 +52,13 @@ if system() == "Darwin":
     log_path = os.path.join(
         home,
         'GitRepos', 'sshtools', 'tests', 'transfer', 'logs',
-        'send.log'
+        'receive.log'
     )
 elif system() == "Linux":
     log_path = os.path.join(
         home,
         'GitRepos', 'sshtools_project', 'sshtools', 'tests', 'transfer', 'logs',
-        'send.log'
+        'receive.log'
     )
 else:
     log_path = "wrong OS"
