@@ -15,7 +15,7 @@ PATH_TO_SSHTOOLS = os.path.join(
     p.stdout.strip(),
     "sshtools"
 )
-PLOTTING_SCRIPT_PATH = os.path.join(PATH_TO_SSHTOOLS, 'plotting', 'scripts')
+PLOTTING_SCRIPT_PATH = os.path.join(PATH_TO_SSHTOOLS, 'plotting', '_scripts')
 
 def start_trigger(
         path_to_image_folder: str, 

@@ -17,7 +17,7 @@ PATH_TO_SSHTOOLS = os.path.join(
     p.stdout.strip(),
     "sshtools"
 )
-SSHTOOLS_SCRIPT_PATH = os.path.join(PATH_TO_SSHTOOLS, 'transfer', 'aws', 'scripts')
+SSHTOOLS_SCRIPT_PATH = os.path.join(PATH_TO_SSHTOOLS, 'transfer', 'aws', '_scripts')
 
 def cp_recursive(
     source_dir: str, 

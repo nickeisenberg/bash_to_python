@@ -68,7 +68,7 @@ class SecureCopyProtocol:
 
         Example
         -------
-        >>> from sshtools.transfer import SecureCopyProtocol
+        >>> from btp.transfer import SecureCopyProtocol
         >>> 
         >>> user = "remote_user"
         >>> ip = "50.1.1.1"
@@ -89,11 +89,11 @@ class SecureCopyProtocol:
 
         if self._system == "Linux":
             path_to_bash = str(
-                pkg.path('sshtools.transfer.scripts.linux', 'send.sh')
+                pkg.path('btp.transfer._scripts.linux', 'send.sh')
             )
         elif self._system == "Darwin":
             path_to_bash = str(
-                pkg.path('sshtools.transfer.scripts.darwin', 'send.sh')
+                pkg.path('btp.transfer._scripts.darwin', 'send.sh')
             )
         else:
             raise Exception("Operating system in not supported")
@@ -197,7 +197,7 @@ class SecureCopyProtocol:
 
         Example
         -------
-        >>> from sshtools.transfer import SecureCopyProtocol
+        >>> from btp.transfer import SecureCopyProtocol
         >>> 
         >>> user = "remote_user"
         >>> ip = "50.1.1.1"
@@ -218,11 +218,11 @@ class SecureCopyProtocol:
 
         if self._system == "Linux":
             path_to_bash = str(
-                pkg.path('sshtools.transfer.scripts.linux', 'receive.sh')
+                pkg.path('btp.transfer._scripts.linux', 'receive.sh')
             )
         elif self._system == "Darwin":
             path_to_bash = str(
-                pkg.path('sshtools.transfer.scripts.darwin', 'receive.sh')
+                pkg.path('btp.transfer._scripts.darwin', 'receive.sh')
             )
         else:
             raise Exception("Operating system in not supported")

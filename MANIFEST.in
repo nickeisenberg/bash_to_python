@@ -1,6 +1,6 @@
-include src/sshtools/transfer/scripts/darwin/send.sh
-include src/sshtools/transfer/scripts/darwin/receive.sh
-include src/sshtools/transfer/scripts/linux/send.sh
-include src/sshtools/transfer/scripts/linux/receive.sh
-include src/sshtools/transfer/aws/scripts/*.sh
-include src/sshtools/plotting/scripts/*.sh
+include src/btp/transfer/_scripts/darwin/send.sh
+include src/btp/transfer/_scripts/darwin/receive.sh
+include src/btp/transfer/_scripts/linux/send.sh
+include src/btp/transfer/_scripts/linux/receive.sh
+include src/btp/transfer/aws/_scripts/*.sh
+include src/btp/plotting/_scripts/*.sh
