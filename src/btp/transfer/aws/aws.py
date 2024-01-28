@@ -5,26 +5,15 @@ import botocore
 import boto3
 import boto3.s3.transfer as s3transfer
 from tqdm import tqdm
-import time
+from platform import system
+import importlib.resources as pkg
 
-p = subprocess.run(
-    "pip show pip | awk '/Location/ {print $2}'", 
-    shell=True,
-    capture_output=True,
-    text=True
-)
-PATH_TO_SSHTOOLS = os.path.join(
-    p.stdout.strip(),
-    "sshtools"
-)
-SSHTOOLS_SCRIPT_PATH = os.path.join(PATH_TO_SSHTOOLS, 'transfer', 'aws', '_scripts')
 
 def cp_recursive(
     source_dir: str, 
     save_dir: str,
     profile: str,
     generate_logfile_to: Optional[str]=None,
-    path_to_bash: Optional[str]=None
     ):
 
     """
@@ -48,11 +37,6 @@ def cp_recursive(
         output of the `aws s3 cp` function. If None, then no log file will be 
         generated
 
-    path_to_bash: Optional[str]=None
-        The path to the underlying bash script being called. If None then it 
-        assumes that the `pyaws` module is located where python looks for the libraries,
-        ie in the same folder that `pip show pip | awk '/Location/ {print $2}'`.
-
     Returns
     -------
     None
@@ -73,10 +57,13 @@ def cp_recursive(
     >>> )
     """
 
-    if path_to_bash is None:
-        path_to_bash = os.path.join(
-            SSHTOOLS_SCRIPT_PATH, 'awssync.sh'
+
+    if system() == "Linux":
+        path_to_bash = str(
+            pkg.path('btp.transfer.aws._scripts.linux', 'awscp.sh')
         )
+    else:
+        raise Exception("Operating system in not supported")
 
     try:
         # Call the Bash script with specified parameters
@@ -130,7 +117,6 @@ def sync(
     save_dir: str,
     profile: str,
     generate_logfile_to: Optional[str]=None,
-    path_to_bash: Optional[str]=None
     ):
 
     """
@@ -181,11 +167,14 @@ def sync(
     >>> )
 
     """
-    
-    if path_to_bash is None:
-        path_to_bash = os.path.join(
-            SSHTOOLS_SCRIPT_PATH, 'awssync.sh'
+
+    if system() == "Linux":
+        path_to_bash = str(
+            pkg.path('btp.transfer.aws._scripts.linux', 'awssync.sh')
         )
+    else:
+        raise Exception("Operating system in not supported")
+    
 
     try:
         # Call the Bash script with specified parameters

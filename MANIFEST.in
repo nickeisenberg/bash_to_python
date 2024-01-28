@@ -3,4 +3,3 @@ include src/btp/transfer/_scripts/darwin/receive.sh
 include src/btp/transfer/_scripts/linux/send.sh
 include src/btp/transfer/_scripts/linux/receive.sh
 include src/btp/transfer/aws/_scripts/*.sh
-include src/btp/plotting/_scripts/*.sh
