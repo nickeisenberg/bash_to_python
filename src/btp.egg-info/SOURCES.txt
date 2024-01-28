@@ -6,10 +6,6 @@ src/btp.egg-info/PKG-INFO
 src/btp.egg-info/SOURCES.txt
 src/btp.egg-info/dependency_links.txt
 src/btp.egg-info/top_level.txt
-src/btp/plotting/__init__.py
-src/btp/plotting/plotting.py
-src/btp/plotting/_scripts/__init__.py
-src/btp/plotting/_scripts/trigger.sh
 src/btp/transfer/__init__.py
 src/btp/transfer/transfer.py
 src/btp/transfer/utils.py
@@ -21,5 +17,5 @@ src/btp/transfer/_scripts/linux/send.sh
 src/btp/transfer/aws/__init__.py
 src/btp/transfer/aws/aws.py
 src/btp/transfer/aws/_scripts/__init__.py
-src/btp/transfer/aws/_scripts/awscp.sh
-src/btp/transfer/aws/_scripts/awssync.sh
+src/btp/transfer/aws/_scripts/linux/awscp.sh
+src/btp/transfer/aws/_scripts/linux/awssync.sh

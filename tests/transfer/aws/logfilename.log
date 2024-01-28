@@ -1,0 +1,22 @@
+upload: tests/transfer/aws/move/movefile3.txt to s3://sshtools-demo-bucket/movefile3.txt
+Completed 1 file(s) with 5 file(s) remaining
+upload: tests/transfer/aws/move/movefile1.txt to s3://sshtools-demo-bucket/movefile1.txt
+Completed 2 file(s) with 4 file(s) remaining
+upload: tests/transfer/aws/move/folder1/subfolder1/file.txt to s3://sshtools-demo-bucket/folder1/subfolder1/file.txt
+Completed 3 file(s) with 3 file(s) remaining
+upload: tests/transfer/aws/move/folder2/file.txt to s3://sshtools-demo-bucket/folder2/file.txt
+Completed 4 file(s) with 2 file(s) remaining
+upload: tests/transfer/aws/move/movefile2.txt to s3://sshtools-demo-bucket/movefile2.txt
+Completed 5 file(s) with 1 file(s) remaining
+upload: tests/transfer/aws/move/folder1/file.txt to s3://sshtools-demo-bucket/folder1/file.txt
+upload: tests/transfer/aws/move/folder1/file.txt to s3://sshtools-demo-bucket/folder1/file.txt
+Completed 1 file(s) with 5 file(s) remaining
+upload: tests/transfer/aws/move/movefile2.txt to s3://sshtools-demo-bucket/movefile2.txt
+Completed 2 file(s) with 4 file(s) remaining
+upload: tests/transfer/aws/move/movefile1.txt to s3://sshtools-demo-bucket/movefile1.txt
+Completed 3 file(s) with 3 file(s) remaining
+upload: tests/transfer/aws/move/folder2/file.txt to s3://sshtools-demo-bucket/folder2/file.txt
+Completed 4 file(s) with 2 file(s) remaining
+upload: tests/transfer/aws/move/folder1/subfolder1/file.txt to s3://sshtools-demo-bucket/folder1/subfolder1/file.txt
+Completed 5 file(s) with 1 file(s) remaining
+upload: tests/transfer/aws/move/movefile3.txt to s3://sshtools-demo-bucket/movefile3.txt

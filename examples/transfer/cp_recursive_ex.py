@@ -4,7 +4,7 @@ An example template of pyaws.transfer.cp_recursive()
 An example of an acceptable s3 bucket path is s3://speed-demo-bucket/imgs
 """
 
-from sshtools.transfer.aws import cp_recursive
+from btp.transfer.aws import cp_recursive
 
 source_dir = "/path/to/data/to/be/moved"
 save_dir = "/path/to/where/data/will/be/moved/to"
