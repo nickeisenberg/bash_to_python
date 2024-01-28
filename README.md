@@ -1,5 +1,5 @@
 This repo uses `subprocess` to call some common bash functions
-from python.
+from python. Currently only Darwin and Linux operating systems are supported.
 
 # Installation
 You can use `pip` to install the repo locally.
@@ -65,4 +65,7 @@ scp.receive(
 ```
 
 # Notes
-The current wiki is completely out of data and needs to be updated.
+* The current wiki is completely out of data and needs to be updated.
+* There is functionality in `btp.transfer.aws` that allows for sending and
+  receiving to aws S3 buckets but there have been a bunch of changes since I
+  have ast tested these tools.
