@@ -39,7 +39,7 @@ class SecureCopyProtocol:
         if self._system not in ["Linux", "Darwin"]:
             raise Exception("Operating system in not supported")
 
-    def send(self,
+    def put(self,
             source_path: str, 
             save_path: str,
             with_tqdm: bool = True,
@@ -168,7 +168,7 @@ class SecureCopyProtocol:
 
         return None
 
-    def receive(self,
+    def get(self,
             source_path: str, 
             save_path: str,
             with_tqdm: bool = True,

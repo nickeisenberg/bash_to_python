@@ -1,13 +1,14 @@
 from btp.transfer import SecureCopyProtocol
 import os
 from platform import system
+import time
 
 home = os.environ['HOME']
 pem = os.environ['USWEST1']
 
 scp = SecureCopyProtocol(
     user="nick",
-    ip="50.18.31.148",
+    ip="13.56.233.243",
     port="22",
     pem=pem
 )
@@ -36,15 +37,18 @@ else:
     log_path = "wrong OS"
 
 
-save_path = "/nvme1n1users/nick/Tmp/btp_test"
+save_path = "/nvme1n1users/nick/Tmp/btp"
 
-scp.send(source_path, save_path, with_tqdm=True, generate_logfile_to=log_path)
+now = time.time()
+scp.put(source_path, save_path, with_tqdm=True, generate_logfile_to=log_path)
+after = time.time() - now
+print(after)
 
 #--------------------------------------------------
 # Receiving
 #--------------------------------------------------
 
-source_path = "/nvme1n1users/nick/Tmp/btp_test"
+source_path = "/nvme1n1users/nick/Tmp/btp"
 
 save_path = home + "/Tmp/temp"
 
@@ -63,4 +67,4 @@ elif system() == "Linux":
 else:
     log_path = "wrong OS"
 
-scp.receive(source_path, save_path, with_tqdm=True, generate_logfile_to=log_path)
+scp.get(source_path, save_path, with_tqdm=True, generate_logfile_to=log_path)

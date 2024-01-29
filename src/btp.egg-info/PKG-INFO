@@ -78,5 +78,5 @@ scp.receive(
 # Notes
 * The current wiki is completely out of data and needs to be updated.
 * There is functionality in `btp.transfer.aws` that allows for sending and
-  receiving to aws S3 buckets but there have been a bunch of changes since I
-  have ast tested these tools.
+  receiving to aws S3 buckets. These tools have only been tested on Linux. They
+  probably would work on Mac but I have not tested.
