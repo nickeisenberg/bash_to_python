@@ -15,8 +15,8 @@ from python. Currently only Darwin and Linux operating systems are supported.
 # Installation
 You can use `pip` to install the repo locally.
 ```bash
-git clone https://github.com/nickeisenberg/bash_to_python.git
-cd bash_to_python
+git clone https://github.com/nickeisenberg/shwrap.git
+cd shwrap
 pip install .
 ```
 
