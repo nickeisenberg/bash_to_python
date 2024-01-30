@@ -1,5 +1,6 @@
 This repo uses `subprocess` to call some common bash functions
-from python. Currently only Darwin and Linux operating systems are supported.
+from python. There are also some 100% python implemented functions that are
+bash adjacent. Currently only Darwin and Linux operating systems are supported.
 
 # Installation
 You can use `pip` to install the repo locally.
