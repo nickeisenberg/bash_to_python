@@ -1,5 +1,5 @@
-include src/btp/transfer/_scripts/darwin/send.sh
-include src/btp/transfer/_scripts/darwin/receive.sh
-include src/btp/transfer/_scripts/linux/send.sh
-include src/btp/transfer/_scripts/linux/receive.sh
-include src/btp/transfer/aws/_scripts/linux/*.sh
+include src/shwrap/transfer/_scripts/darwin/send.sh
+include src/shwrap/transfer/_scripts/darwin/receive.sh
+include src/shwrap/transfer/_scripts/linux/send.sh
+include src/shwrap/transfer/_scripts/linux/receive.sh
+include src/shwrap/transfer/aws/_scripts/linux/*.sh

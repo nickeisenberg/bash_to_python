@@ -4,8 +4,8 @@ from python. Currently only Darwin and Linux operating systems are supported.
 # Installation
 You can use `pip` to install the repo locally.
 ```bash
-git clone https://github.com/nickeisenberg/bash_to_python.git
-cd bash_to_python
+git clone https://github.com/nickeisenberg/shwrap.git
+cd shwrap
 pip install .
 ```
 
@@ -18,9 +18,9 @@ this execute is:
 scp -r -i <pem> -P <port> <source_path> <user>@<ip>:<save_path>`
 ```
 
-With `btp`, the python setup would be:
+With `shwrap`, the python setup would be:
 ```python
-from btp.transfer import SecureCopyProtocol
+from shwrap.transfer import SecureCopyProtocol
 
 scp = SecureCopyProtocol(
     user="<user>",
@@ -38,7 +38,7 @@ scp.send(
 )
 ```
 
-We can also use `btp.SecureCopyProtocol` to receive files from the remote
+We can also use `shwrap.SecureCopyProtocol` to receive files from the remote
 machine, ie the bash call:
 ```bash
 scp -r -i <pem> -P <port> <user>@<ip>:<source_path> <save_path> `
@@ -46,7 +46,7 @@ scp -r -i <pem> -P <port> <user>@<ip>:<source_path> <save_path> `
 
 The python setup for this would be 
 ```python
-from btp.transfer import SecureCopyProtocol
+from shwrap.transfer import SecureCopyProtocol
 
 scp = SecureCopyProtocol(
     user="<user>",
@@ -66,6 +66,6 @@ scp.receive(
 
 # Notes
 * The current wiki is completely out of data and needs to be updated.
-* There is functionality in `btp.transfer.aws` that allows for sending and
+* There is functionality in `shwrap.transfer.aws` that allows for sending and
   receiving to aws S3 buckets. These tools have only been tested on Linux. They
   probably would work on Mac but I have not tested.

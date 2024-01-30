@@ -1,6 +1,6 @@
 import json
 import boto3
-from btp.transfer.aws import fast_upload
+from shwrap.transfer.aws import fast_upload
 from tqdm import tqdm
 import os
 

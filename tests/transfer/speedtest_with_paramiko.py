@@ -6,7 +6,7 @@ import paramiko
 from scp import SCPClient
 import os
 import time
-from btp.transfer import SecureCopyProtocol
+from shwrap.transfer import SecureCopyProtocol
 
 class SecureCopyProtocolParamiko:
     def __init__(self, hostname, port, username, pem_file_path):
@@ -71,11 +71,11 @@ scp = SecureCopyProtocol(
 celebA_path = "/home/nicholas/Datasets/celebA/imgs_1000"
 
 # this took 53 seconds
-remote_path_btp = '/nvme1n1users/nick/Tmp/btp'
+remote_path_shwrap = '/nvme1n1users/nick/Tmp/shwrap'
 now = time.time()
 scp.put(
     source_path=celebA_path, 
-    save_path=remote_path_btp, 
+    save_path=remote_path_shwrap, 
     with_tqdm=True
 )
 after = time.time() - now

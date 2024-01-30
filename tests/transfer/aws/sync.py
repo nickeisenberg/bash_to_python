@@ -1,4 +1,4 @@
-from btp.transfer.aws import sync
+from shwrap.transfer.aws import sync
 import os
 
 home = os.environ["HOME"]

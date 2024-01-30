@@ -1,4 +1,4 @@
-from btp.transfer.aws import cp_recursive
+from shwrap.transfer.aws import cp_recursive
 import os
 
 home = os.environ["HOME"]

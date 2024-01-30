@@ -60,7 +60,7 @@ def cp_recursive(
 
     if system() == "Linux":
         path_to_bash = str(
-            pkg.path('btp.transfer.aws._scripts.linux', 'awscp.sh')
+            pkg.path('shwrap.transfer.aws._scripts.linux', 'awscp.sh')
         )
     else:
         raise Exception("Operating system in not supported")
@@ -170,7 +170,7 @@ def sync(
 
     if system() == "Linux":
         path_to_bash = str(
-            pkg.path('btp.transfer.aws._scripts.linux', 'awssync.sh')
+            pkg.path('shwrap.transfer.aws._scripts.linux', 'awssync.sh')
         )
     else:
         raise Exception("Operating system in not supported")
