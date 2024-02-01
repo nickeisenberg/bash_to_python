@@ -12,3 +12,6 @@ def list_files_recursively(directory):
         else:
             all_files.append(full_path)
     return all_files
+
+def count_all_files(root):
+    return sum(len(files) for _, _, files in os.walk(root))

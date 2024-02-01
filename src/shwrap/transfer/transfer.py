@@ -2,7 +2,7 @@ import subprocess
 import os
 from typing import Optional
 from tqdm import tqdm
-from .utils import list_files_recursively
+from .utils import count_all_files
 from platform import system
 import importlib.resources as pkg
 import re
@@ -100,8 +100,7 @@ class SecureCopyProtocol:
 
         num_files = 1
         if os.path.isdir(source_path):
-            all_files = list_files_recursively(source_path)
-            num_files = len(all_files)
+            num_files = count_all_files(source_path)
         
         if self.pem is not None:
             command = [
@@ -229,8 +228,7 @@ class SecureCopyProtocol:
 
         num_files = 1
         if os.path.isdir(source_path):
-            all_files = list_files_recursively(source_path)
-            num_files = len(all_files)
+            num_files = count_all_files(source_path)
         
         if self.pem is not None:
             command = [
