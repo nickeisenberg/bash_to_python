@@ -31,7 +31,7 @@ scp = SecureCopyProtocol(
 )
 
 
-scp.send(
+scp.put(
     source_path="<source_path>",
     save_path="<save_path>",
     with_tqdm=True,
@@ -57,7 +57,7 @@ scp = SecureCopyProtocol(
 )
 
 
-scp.receive(
+scp.get(
     source_path="<source_path>",
     save_path="<save_path>",
     with_tqdm=True,
