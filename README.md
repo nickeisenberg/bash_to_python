@@ -5,7 +5,7 @@ bash adjacent. Currently only Darwin and Linux operating systems are supported.
 # Installation
 You can use `pip` to install the repo locally.
 ```bash
-git clone <this_repo>
+git clone https://github.com/nickeisenberg/shwrap.git
 cd shwrap
 pip install .
 ```
