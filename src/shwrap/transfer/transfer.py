@@ -88,15 +88,17 @@ class SecureCopyProtocol:
         """
 
         if self._system == "Linux":
-            path_to_bash = str(
-                pkg.path('shwrap.transfer._scripts.linux', 'send.sh')
-            )
+            path_to_bash = None
+            with pkg.path('shwrap.transfer._scripts.linux', 'send.sh') as p:
+                path_to_bash = str(p)
+
         elif self._system == "Darwin":
-            path_to_bash = str(
-                pkg.path('shwrap.transfer._scripts.darwin', 'send.sh')
-            )
+            path_to_bash = None
+            with pkg.path('shwrap.transfer._scripts.darwin', 'send.sh') as p:
+                path_to_bash = str(p)
         else:
             raise Exception("Operating system in not supported")
+
 
         num_files = 1
         if os.path.isdir(source_path):
@@ -216,13 +218,15 @@ class SecureCopyProtocol:
         """
 
         if self._system == "Linux":
-            path_to_bash = str(
-                pkg.path('shwrap.transfer._scripts.linux', 'receive.sh')
-            )
+            path_to_bash = None
+            with pkg.path('shwrap.transfer._scripts.linux', 'receive.sh') as p:
+                path_to_bash = str(p)
+
         elif self._system == "Darwin":
-            path_to_bash = str(
-                pkg.path('shwrap.transfer._scripts.darwin', 'receive.sh')
-            )
+            path_to_bash = None
+            with pkg.path('shwrap.transfer._scripts.darwin', 'receive.sh') as p:
+                path_to_bash = str(p)
+
         else:
             raise Exception("Operating system in not supported")
 
