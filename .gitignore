@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 /build
 /src/shwrap.egg-info
+=======
+build
+src/shwrap.egg-info
+>>>>>>> 0426512fcddc876a2dfb244b0c126e64c672522d
