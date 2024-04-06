@@ -7,36 +7,24 @@ home = os.environ['HOME']
 pem = os.environ['USWEST1']
 
 scp = SecureCopyProtocol(
-    user="nick",
-    ip="54.193.254.114",
+    user="eisenbnt",
+    ip="pascal.llnl.gov",
     port="22",
-    pem=pem
+    # pem=pem
 )
 
 #--------------------------------------------------
 # Sending
 #--------------------------------------------------
 
-if system() == "Darwin":
-    source_path = home + "/GitRepos/shwrap/tests/transfer/move"
-    log_path = os.path.join(
-        home,
-        'GitRepos', 'shwrap', 'tests', 'transfer', 'logs',
-        'send.log'
-    )
-elif system() == "Linux":
-    source_path = home 
-    source_path += "/GitRepos/shwrap_project/shwrap/tests/transfer/move"
-    log_path = os.path.join(
-        home,
-        'GitRepos', 'shwrap_project', 'shwrap', 'tests', 'transfer', 'logs',
-        'send.log'
-    )
-else:
-    source_path = "wrong OS"
-    log_path = "wrong OS"
+source_path = home 
+source_path += "/GitRepos/shwrap_project/shwrap/tests/transfer/move"
+log_path = os.path.join(
+    home, 'GitRepos', 'shwrap_project', 'shwrap', 'tests', 
+    'transfer', 'logs', 'send.log'
+)
 
-save_path = "/nvme1n1users/nick/Tmp/shwrap"
+save_path = "/g/g11/eisenbnt/tmp"
 
 scp.put(source_path, save_path, with_tqdm=True, generate_logfile_to=log_path)
 
