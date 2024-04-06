@@ -66,7 +66,7 @@ scp.get(
 ```
 
 # Notes
-* The current wiki is completely out of data and needs to be updated.
+* The current wiki is completely out of data and needs to be updated. 
 * There is functionality in `shwrap.transfer.aws` that allows for sending and
   receiving to aws S3 buckets. These tools have only been tested on Linux. They
   probably would work on Mac but I have not tested.
